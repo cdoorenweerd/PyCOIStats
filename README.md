@@ -34,7 +34,7 @@ AACTGTCA and AACTNY-A
 Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
 
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~10,000 sequences in less than 30 minutes on most desktop machines, for larger datasets a cluster is advisable.
+The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in less than 30 minutes on most desktop machines, for larger datasets a cluster is advisable.
 
 
 ### Fasta input format
@@ -42,6 +42,8 @@ The scripts compare all sequences in a pairwise fashion, so the computational ti
 ALL SEQUENCES MUST BE PROPERLY ALIGNED
 
 The scripts were created for COI sequence data but will work on any protein coding aligned mitochondrial DNA sequence dataset. The functions will work on nuclear DNA as well, but ambiguity codes there can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count ambiguities as differences with nuDNA.
+
+### Species name recognition
 
 The scripts will use anything after a period "." in the sample identifier as the species name. Sample identifiers must be unique for each sequence. So for example this would work:
 

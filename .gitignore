@@ -1,3 +1,6 @@
+# Visual Studio
+.vscode/
+
 # Apple trash
 .DS_Store
 

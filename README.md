@@ -14,23 +14,24 @@ All dependencies are available through Anaconda (https://anaconda.org/anaconda/r
 - matplotlib
 - seaborn
 - csvkit
+- r-base
 
 e.g. using
 
-```conda create -n pycoistats python=3.6 pandas itertools biopython numpy argpase os matplotlib seaborn csvkit```
+```conda create -n pycoistats python=3.6 pandas itertools biopython numpy argpase os matplotlib seaborn csvkit r-base```
 
 See further instructions on how to use conda environments at https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
 
 ### Unique haplotypes
 
-A unique haplotype is defined as confidently different sequences; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
+A unique haplotype is defined as a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
 
 For example:
 
 AACTGTCA and AACTNY-A
 
-Are considered identical haplotypes.
+Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
 
 
 The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~10,000 sequences in less than 30 minutes on most machines.

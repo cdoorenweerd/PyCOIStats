@@ -46,17 +46,17 @@ The script will use anything after a period "." in the sample identifier as the 
 
 >LEASV1523-19.Caloptilia_betulicola
 NACTCTTTATTTTATTTTTGGAATTTGAGCCGGTATATTAGGAACTTCTTTAAGAATATTAATTCGAGCAGAATTAGGTAATCCAGGATCTTTAATTGGGGATGATCAAATTTATAATACAATTGTTACAGCTCATGCTTTCATTATAATTTTCTTTATAGTTATACCTATTATAATTGGGGGATTTGGGAATTGATTAGTCCCATTGATATTAGGAGCACCTGATATAGCTTTCCC
->LEASV1522-19.Caloptilia_rufipennella
+>ABASV1522-19.Caloptilia_rufipennella
 NACTCTTTATTTTATTTTTGGAATTTGATCCGGTATATTAGGAACTTCTTTAAGAATATTAATTCGAGCAGAGTTAGGTAATCCAGGATCTTTAATTGGTGATGATCAAATTTATAATACCATTGTTACAGCTCACGCTTTTATTATAATTTTTTTTATAGTTATACCTATTATAATTGGGGGATTTGGAAATTGATTAGTGCCATTAATATTAGGGGCACCTGATATAGCATTCCC
->LEASV472-19.Povolnya_leucapennella
+>LETRA472-19.Povolnya_leucapennella
 NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTAATCCAGGATCTTTAATTGGGGATGATCAAATTTATAATACTATTGTTACAGCTCATGCTTTTATTATAATTTTTTTTATAGTTATACCTATTATAATTGGTGGATTTGGAAACTGATTAGTGCCATTAATATTAGGGGCTCCTGATATAGCTTTCCC
 
 
 ### Script functions
 
-- `hapcounter.py` counts the number of sequences and unique haplotypes per species and outputs to csv table 
+- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table 
 
-- `seq_purger.py` removes duplicate haplotypes and sequences that do not meet minimum length requirement
+- `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum length requirement
 
 - Calculate all intraspecific distances in dataset (intra)
 - Calculate all maximum intraspecific distances in dataset (Dmax)

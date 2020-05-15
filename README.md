@@ -34,7 +34,7 @@ AACTGTCA and AACTNY-A
 Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
 
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~10,000 sequences in less than 30 minutes on most machines.
+The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~10,000 sequences in less than 30 minutes on most desktop machines, for larger datasets a cluster is advisable.
 
 
 ### Fasta input format
@@ -43,7 +43,7 @@ ALL SEQUENCES MUST BE PROPERLY ALIGNED
 
 The scripts were created for COI sequence data but will work on any protein coding aligned mitochondrial DNA sequence dataset. The functions will work on nuclear DNA as well, but ambiguity codes there can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count ambiguities as differences with nuDNA.
 
-The script will use anything after a period "." in the sample identifier as the species name. Sample identifiers must be unique for each sequence. So for example this would work:
+The scripts will use anything after a period "." in the sample identifier as the species name. Sample identifiers must be unique for each sequence. So for example this would work:
 
 >LEASV1523-19.Caloptilia_betulicola
 NACTCTTTATTTTATTTTTGGAATTTGAGCCGGTATATTAGGAACTTCTTTAAGAATATTAATTCGAGCAGAATTAGGTAATCCAGGATCTTTAATTGGGGATGATCAAATTTATAATACAATTGTTACAGCTCATGCTTTCATTATAATTTTCTTTATAGTTATACCTATTATAATTGGGGGATTTGGGAATTGATTAGTCCCATTGATATTAGGAGCACCTGATATAGCTTTCCC
@@ -51,7 +51,7 @@ NACTCTTTATTTTATTTTTGGAATTTGAGCCGGTATATTAGGAACTTCTTTAAGAATATTAATTCGAGCAGAATTAGGTA
 >ABASV1522-19.Caloptilia_rufipennella
 NACTCTTTATTTTATTTTTGGAATTTGATCCGGTATATTAGGAACTTCTTTAAGAATATTAATTCGAGCAGAGTTAGGTAATCCAGGATCTTTAATTGGTGATGATCAAATTTATAATACCATTGTTACAGCTCACGCTTTTATTATAATTTTTTTTATAGTTATACCTATTATAATTGGGGGATTTGGAAATTGATTAGTGCCATTAATATTAGGGGCACCTGATATAGCATTCCC
 
->LETRA472-19.Povolnya_leucapennella
+>LETRA472-19.Caloptilia_rufipennella
 NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTAATCCAGGATCTTTAATTGGGGATGATCAAATTTATAATACTATTGTTACAGCTCATGCTTTTATTATAATTTTTTTTATAGTTATACCTATTATAATTGGTGGATTTGGAAACTGATTAGTGCCATTAATATTAGGGGCTCCTGATATAGCTTTCCC
 
 
@@ -81,7 +81,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 - Calculate all interspecific distances in dataset (inter) [TO DO]
 - Calculate all minimum distances to the nearest neighbor (Dmin_NN) [TO DO]
 
-- the Jupyter Notebook 'graphs.ipynb' contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
+- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
 
 - `SpideR_haploaccum.R` R script that plots haplotype accumulation curves and calculates Chao2 estimates of the total number of haplotypes. Based on the SpideR package (http://spider.r-forge.r-project.org/SpiderWebSite/spider.html)
 

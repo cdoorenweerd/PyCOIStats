@@ -54,7 +54,9 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 ### Script functions
 
-- 'seq_purger.py' removes duplicate haplotypes and sequences that do not meet minimum length requirement
+- `hapcounter.py` counts the number of sequences and unique haplotypes per species and outputs to csv table 
+
+- `seq_purger.py` removes duplicate haplotypes and sequences that do not meet minimum length requirement
 
 - Calculate all intraspecific distances in dataset (intra)
 - Calculate all maximum intraspecific distances in dataset (Dmax)
@@ -63,3 +65,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 - Calculate all minimum distances to the nearest neighbor (Dmin_NN) [TO DO]
 
 - the Jupyter Notebook 'graphs.ipynb' contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
+
+# Example workflow
+
+To do.

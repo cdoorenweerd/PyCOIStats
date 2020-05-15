@@ -56,7 +56,7 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
                     del uniquedict[b.id]
                 else:
                     del uniquedict[a.id]
-    print("Unique sequences (p-dist != 0): " + str(len(uniquedict))) 
+    print("Unique sequences (p-dist != 0) with minimum length: " + str(len(uniquedict))) 
     unique_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
     for record in sequences:

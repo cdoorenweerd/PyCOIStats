@@ -13,7 +13,7 @@ parser.add_argument("-i", "--inputfile", metavar="",
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
                     help="'fasta' is recommended, other formats not tested")
-parser.add_argument("-l", "--minlength", metavar="", default=0, 
+parser.add_argument("-l", "--minlength", type=int, metavar="", default=0, 
                     help="Minimum length (bp) of sequences to be retained. Does not count N, ? or - towards length. Default '0'.")
 args = parser.parse_args()
 

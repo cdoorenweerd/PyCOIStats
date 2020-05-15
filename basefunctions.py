@@ -1,3 +1,7 @@
+from Bio import SeqIO
+from Bio.Alphabet import IUPAC
+
+
 def IUPACdistance(seq1, seq2):
     ignorelist = ["N","?","-","M","R","W","S","Y","K","V","H","D","B"]
     unamblengthseq1 = len(seq1.translate(str.maketrans('','','N?-MRWSYKVHDB')))

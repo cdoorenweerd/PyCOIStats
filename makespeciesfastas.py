@@ -31,6 +31,6 @@ for speciesname in listofspecies:
     for record in sequences:
         if (record.id.split(".")[1]) == speciesname:        
             recordlist.append(record)
-    print(str(len(recordlist)) + " sequences for " + str(speciesname))
+    print(str(len(recordlist)) + " sequence(s) for " + str(speciesname))
     if len(recordlist) > min_seqs:
         SeqIO.write(recordlist, ("./species_fastas/" + str(speciesname) + ".fas"), "fasta")

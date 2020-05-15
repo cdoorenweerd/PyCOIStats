@@ -21,14 +21,24 @@ args = parser.parse_args()
 inputfile = args.inputfile
 inputfileformat = args.inputfileformat
 min_len = args.minlength
-outputfile = str("purged_" + str(inputfile))
+outputfile = str("qualifying_" + str(inputfile))
 
 
-def uniques(inputfile, inputfileformat):
-    recordlist = []
-    uniquedict = {}
+def seq_len_purge(inputfile, inputfileformat, min_len):
+    min_len_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
     for record in sequences:
+        seq = str(record.seq)
+        if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
+            min_len_seqs.append(record)
+    print("Sequences with min " + str(min_len) + " bp: " + str(len(min_len_seqs)))
+    return min_len_seqs
+
+
+def uniques(min_len_seqs, inputfile, inputfileformat):
+    recordlist = []
+    uniquedict = {}   
+    for record in min_len_seqs:
         uniquedict[record.id] = record.seq
         recordlist.append(record)
     for a, b in itertools.combinations(recordlist, 2):
@@ -38,10 +48,8 @@ def uniques(inputfile, inputfileformat):
             if sp_seq1 != sp_seq2:
                 print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype.")
             if b.id in uniquedict.keys():
-                del uniquedict[b.id]          
-            
-    print("Unique sequences (p-dist != 0): " + str(len(uniquedict)))
-    
+                del uniquedict[b.id]                   
+    print("Unique sequences (p-dist != 0): " + str(len(uniquedict))) 
     unique_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
     for record in sequences:
@@ -50,15 +58,6 @@ def uniques(inputfile, inputfileformat):
     return unique_seqs
 
 
-def seq_len_purge(unique_seqs, inputfileformat, min_len):
-    unique_min_len_seqs = []
-    for record in unique_seqs:
-        seq = str(record.seq)
-        if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
-            unique_min_len_seqs.append(record)
-    print("Unique sequences with min " + str(min_len) + " bp: " + str(len(unique_min_len_seqs)))
-    return unique_min_len_seqs
-
 count = 0
 sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
 for record in sequences:
@@ -66,8 +65,9 @@ for record in sequences:
 print("Found " + str(count) + " sequences in inputfile.")
 
 
-unique_seqs = uniques(inputfile, inputfileformat)
-unique_min_len_seqs = seq_len_purge(unique_seqs, inputfileformat, min_len)
+min_len_seqs = seq_len_purge(inputfile, inputfileformat, min_len)
+unique_min_len_seqs = uniques(min_len_seqs, inputfile, inputfileformat)
+
 
 SeqIO.write(unique_min_len_seqs, outputfile, "fasta")
 print("Qualifying sequences written to " + str(outputfile))

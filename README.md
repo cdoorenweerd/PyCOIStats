@@ -57,7 +57,17 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 ### Script functions
 
-- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table 
+- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table
+<details>
+  <summary>Usage</summary>
+  python hapcounter.py -h:
+  usage: hapcounter.py [-h] [-i] [-f]
+  optional arguments:
+  -h, --help            show this help message and exit
+  -i , --inputfile      Sequences input file name
+  -f , --inputfileformat 
+                        'fasta' is recommended, other formats not tested
+</details>
 
 - `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum length requirement
 

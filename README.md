@@ -66,17 +66,11 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
   optional arguments:
 
-  -h, --help
-  
-  show this help message and exit
+  -h, --help    show this help message and exit
 
-  -i , --inputfile
-  
-  Sequences input file name
+  -i , --inputfile  Sequences input file name
 
-  -f , --inputfileformat
-  
-  'fasta' is recommended, other formats not tested
+  -f , --inputfileformat    'fasta' is recommended, other formats not tested
 </details>
 
 - `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum length requirement
@@ -88,6 +82,8 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 - Calculate all minimum distances to the nearest neighbor (Dmin_NN) [TO DO]
 
 - the Jupyter Notebook 'graphs.ipynb' contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
+
+- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves and calculates Chao2 estimates of the total number of haplotypes. Based on the SpideR package (http://spider.r-forge.r-project.org/SpiderWebSite/spider.html)
 
 # Example workflow
 

@@ -75,7 +75,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
   -f , --inputfileformat    'fasta' is recommended, other formats not tested
 </details>
 
-- `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum length requirement
+- `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum unambiguous length requirement
 
 - Calculate all intraspecific distances in dataset (intra)
 - Calculate all maximum intraspecific distances in dataset (Dmax)
@@ -85,7 +85,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
 
-- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves and calculates Chao2 estimates of the total number of haplotypes. Based on the SpideR package (http://spider.r-forge.r-project.org/SpiderWebSite/spider.html)
+- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves and calculates Chao2 estimates of the total number of haplotypes. Based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)
 
 # Example workflow
 

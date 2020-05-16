@@ -12,7 +12,7 @@ parser.add_argument("-i", "--inputfile", metavar="",
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
                     help="'fasta' is recommended, other formats not tested")
-parser.add_argument("-m", "--min_seqs", metavar="", default=0,
+parser.add_argument("-m", "--min_seqs", type=int, metavar="", default=0,
                     help="Minimum number of sequences to write a fasta for that species, default 0")
 args = parser.parse_args()
 
@@ -32,5 +32,5 @@ for speciesname in listofspecies:
         if (record.id.split(".")[1]) == speciesname:        
             recordlist.append(record)
     print(str(len(recordlist)) + " sequence(s) for " + str(speciesname))
-    if len(recordlist) > min_seqs:
+    if len(recordlist) >= min_seqs:
         SeqIO.write(recordlist, ("./species_fastas/" + str(speciesname) + ".fas"), "fasta")

@@ -85,7 +85,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
 
-- `chao2.py` Uses all species' fastas in /species_fastas to run the SpideR_chao2.R script to calculate chao2 estimates of the total haplotype diversity and returns a csv. Note that chao2 assumes random sampling.
+- `chao2.py` Uses all species' fastas in /species_fastas to run the SpideR_chao2.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
 
 - `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)
 

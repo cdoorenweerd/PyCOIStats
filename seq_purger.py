@@ -54,7 +54,7 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
             elif b.id in uniquedict.keys():
                 if seq1_hq > seq2_hq:
                     del uniquedict[b.id]
-                else:
+                elif a.id in uniquedict.keys():
                     del uniquedict[a.id]
     print("Unique sequences (p-dist != 0) with minimum length: " + str(len(uniquedict))) 
     unique_seqs = []

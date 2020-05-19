@@ -4,12 +4,13 @@
 from Bio import SeqIO
 from Bio.Alphabet import IUPAC
 import itertools
+import os
 import argparse
 import pandas as pd
 
 
 parser = argparse.ArgumentParser(description="Script to count number of sequences and unique haplotypes per species. Species names are parsed based on '.'")
-parser.add_argument("-i", "--inputfile", metavar="", required=True 
+parser.add_argument("-i", "--inputfile", metavar="", required=True, 
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
                     help="'fasta' is recommended, other formats not tested")
@@ -18,7 +19,8 @@ args = parser.parse_args()
 
 inputfile = args.inputfile
 inputfileformat = args.inputfileformat
-outputfile = str(str(inputfile) + "_haplotypecounts.csv")
+inputfileclean = os.path.splitext(inputfile)[0]
+outputfile = str(str(inputfileclean) + "_haplotypecounts.csv")
 
 
 def IUPACdistance(seq1, seq2):

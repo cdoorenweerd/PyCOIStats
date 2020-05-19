@@ -4,6 +4,9 @@
 import itertools
 import pandas as pd
 import argparse
+import os
+from Bio import SeqIO
+from Bio.Alphabet import IUPAC
 from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies
 
@@ -12,13 +15,14 @@ parser = argparse.ArgumentParser(description="Script to calculate all inter and 
 parser.add_argument("-i", "--inputfile", metavar="", required=True,
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
-                    help="'fasta' is recommended, other formats not tested")
+                    help="'fasta' [default] is recommended, other formats not tested")
 args = parser.parse_args()
 
 
 inputfile = args.inputfile
 inputfileformat = args.inputfileformat
-outputfile = str(str(inputfile) + "_pdistances.csv")
+inputfileclean = os.path.splitext(inputfile)[0]
+outputfile = str(str(inputfileclean) + "_pdistances.csv")
 
 
 pdistdict = []
@@ -41,7 +45,7 @@ for pair in pdistdict:
 print(str(len(intravalues)) + " intraspecific values.")
 print(str(len(intervalues)) + " interspecific values.")
         
-listofspecies = createlistofspecies(inputfile, fileformat)
+listofspecies = createlistofspecies(inputfile, inputfileformat)
 dmaxvalues = []
 dmin_nnvalues = []
 for speciesname in listofspecies:

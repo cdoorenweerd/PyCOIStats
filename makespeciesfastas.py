@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description="Script to create a fasta per speci
 parser.add_argument("-i", "--inputfile", metavar="", 
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
-                    help="'fasta' is recommended, other formats not tested")
+                    help="'fasta' [default] is recommended, other formats not tested")
 parser.add_argument("-m", "--min_seqs", type=int, metavar="", default=0,
                     help="Minimum number of sequences to write a fasta for that species, default 0")
 args = parser.parse_args()

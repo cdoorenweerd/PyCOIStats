@@ -59,33 +59,18 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 ### Script functions
 
-- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table
-<details>
-  <summary>hapcounter usage</summary>
-  python hapcounter.py -h:
+For each script, run python script.py -h for usage instructions.
 
-  usage: hapcounter.py [-h] [-i] [-f]
 
-  optional arguments:
+- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table.
 
-  -h, --help    show this help message and exit
+- `seq_purger.py` retains sequences that meet the minimum length requirement and are unique haplotypes, and writes the result to a new fasta. Identical haplotypes across different species issue a warning and are retained.
 
-  -i , --inputfile  Sequences input file name
+- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv.
 
-  -f , --inputfileformat    'fasta' is recommended, other formats not tested
-</details>
+- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the output from ```pdistancer.py``` and output the graphs for publication.
 
-- `seq_purger.py` retains unique haplotypes only and removes sequences that do not meet minimum unambiguous length requirement
-
-- Calculate all intraspecific distances in dataset (intra)
-- Calculate all maximum intraspecific distances in dataset (Dmax)
-
-- Calculate all interspecific distances in dataset (inter) [TO DO]
-- Calculate all minimum distances to the nearest neighbor (Dmin_NN) [TO DO]
-
-- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots and output them for publication.
-
-- `chao2.py` Uses all species' fastas in /species_fastas to run the SpideR_chao2.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
+- `chao1.py` Uses all species' fastas in /species_fastas to run the SpideR_chao1.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
 
 - `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)
 

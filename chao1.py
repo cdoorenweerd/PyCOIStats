@@ -16,9 +16,9 @@ for fasta in listoffastas:
     speciesname = os.path.splitext(fasta)[0]
     print("Running " + str(speciesname))
     cmd = str("Rscript --vanilla SpideR_chao1.R -f ./species_fastas/") + fasta
-    chao2result = subprocess.check_output(cmd, shell=True, universal_newlines=True)
+    chao1result = subprocess.check_output(cmd, shell=True, universal_newlines=True)
     speciesstats.append({'species': speciesname,
-                         'chao2result':chao2result})
+                         'chao1result':chao1result})
 
 totaldf = pd.DataFrame(speciesstats)
 totaldf.to_csv(outputfile, index=False)

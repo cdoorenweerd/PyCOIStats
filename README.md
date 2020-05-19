@@ -37,7 +37,9 @@ AACTGTCA and AACTNY-A
 Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
 
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in less than 30 minutes on most desktop machines, for larger datasets a cluster is advisable.
+### Computational demand
+
+The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in a couple of hours on most desktop machines, for larger datasets a cluster is advisable.
 
 
 ### Fasta input format
@@ -62,7 +64,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 ### Script functions
 
-For each script, run python script.py -h for usage instructions.
+For each script, run `python script.py -h` for usage instructions.
 
 
 - `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table.
@@ -72,6 +74,8 @@ For each script, run python script.py -h for usage instructions.
 - `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv.
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the output from ```pdistancer.py``` and output the graphs for publication.
+
+- `makespeciesfastas.py` will generate a separate fasta for each species in the folder /species_fastas
 
 - `chao1.py` Uses all species' fastas in /species_fastas to run the SpideR_chao1.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
 

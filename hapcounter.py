@@ -9,7 +9,7 @@ import pandas as pd
 
 
 parser = argparse.ArgumentParser(description="Script to count number of sequences and unique haplotypes per species. Species names are parsed based on '.'")
-parser.add_argument("-i", "--inputfile", metavar="", 
+parser.add_argument("-i", "--inputfile", metavar="", required=True 
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
                     help="'fasta' is recommended, other formats not tested")

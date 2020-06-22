@@ -5,6 +5,7 @@ import itertools
 import pandas as pd
 import argparse
 import os
+from statistics import mean
 from Bio import SeqIO
 from Bio.Alphabet import IUPAC
 from basefunctions import IUPACdistance
@@ -23,6 +24,15 @@ inputfile = args.inputfile
 inputfileformat = args.inputfileformat
 inputfileclean = os.path.splitext(inputfile)[0]
 outputfile = str(str(inputfileclean) + "_pdistances.csv")
+speciesstatsfile = str(str(inputfileclean) + "_speciesstats.csv")
+
+
+def average(list):
+    if len(list) > 0:
+        avg = sum(list) / len(list)
+    else:
+        avg = 'N/A'
+    return avg
 
 
 pdistdict = []
@@ -48,9 +58,11 @@ print(str(len(intervalues)) + " interspecific values.")
 listofspecies = createlistofspecies(inputfile, inputfileformat)
 dmaxvalues = []
 dmin_nnvalues = []
+sp_avg = {}
 for speciesname in listofspecies:
     intraperspecies = []
     interperspecies = []
+    neighbors = {}
     for pair in pdistdict:
         species1 = str(pair).split(".")[1]
         species2 = str(pair).split(".")[3]
@@ -59,12 +71,48 @@ for speciesname in listofspecies:
             intraperspecies.append(pdist)
         elif speciesname == species1 != species2:
             interperspecies.append(pdist)
+            neighbors.update({species2: [pdist]})
+    d_max = 'N/A'
+    dmin_nn = 'N/A'
+    nearestneighbor = 'N/A'
+    d_nearestneighbor = 'N/A'
+    sp_avg.update({speciesname: [average(intraperspecies),
+                                 d_max,
+                                 len(intraperspecies),
+                                 average(interperspecies),
+                                 dmin_nn,
+                                 len(interperspecies),
+                                 nearestneighbor,
+                                 d_nearestneighbor]})
     if len(intraperspecies) > 0:
-        dmaxvalues.append(max(intraperspecies))
+        d_max = max(intraperspecies)
+        dmaxvalues.append(d_max)
+        sp_avg[speciesname][1] = d_max
     if len(interperspecies) > 0:
-        dmin_nnvalues.append(min(interperspecies)) 
+        dmin_nn = min(interperspecies)
+        dmin_nnvalues.append(dmin_nn)
+        sp_avg[speciesname][4] = dmin_nn
+    if len(neighbors) > 0:
+        d_nearestneighbor = min(neighbors.values())
+        sp_avg[speciesname][7] = d_nearestneighbor
+        nearestneighbor = list(neighbors.keys())[list(neighbors.values()).index(d_nearestneighbor)]
+        sp_avg[speciesname][6] = nearestneighbor
+
+
+
 print(str(len(dmaxvalues)) + " intraspecific Dmax values.")
 print(str(len(dmin_nnvalues)) + " interspecific Dmix_NN values.")
+
+df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra',
+                                                                    'intra_d_max',
+                                                                    'n_intra',
+                                                                    'avg_inter',
+                                                                    'inter_dmin_nn',
+                                                                    'n_inter',
+                                                                    'nearest_neighbor',
+                                                                    'd_nearestneighbor'])
+df_sp_avg.to_csv(speciesstatsfile)
+print("P-distance averages per species written to " + str(outputfile))
 
 df_intra = pd.DataFrame({'all_intra': intravalues})
 df_intradmax = pd.DataFrame({'intra_dmax': dmaxvalues})
@@ -73,4 +121,4 @@ df_interdmin_nn = pd.DataFrame({'inter_dmin_nn': dmin_nnvalues})
 
 df_distances = pd.concat([df_intra,df_intradmax,df_inter,df_interdmin_nn], ignore_index=False, axis=1)
 df_distances.to_csv(outputfile)
-print("Results written to " + str(outputfile))
+print("All p-distances written to " + str(outputfile))

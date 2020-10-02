@@ -47,11 +47,11 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
             if IUPACdistance(seq_a, seq_b) == 0:
                 sp_seq_a = (a.id.split(".")[1])
                 sp_seq_b = (b.id.split(".")[1])
-                seq_a_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
-                seq_b_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
                 if sp_seq_a != sp_seq_b:
                     print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained.")
                 else:
+                    seq_a_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
+                    seq_b_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
                     if seq_a_hq > seq_b_hq:
                         del uniquedict[b.id]
                     else:

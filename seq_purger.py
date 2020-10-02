@@ -41,20 +41,21 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
         uniquedict[record.id] = record.seq
         recordlist.append(record)
     for a, b in itertools.combinations(recordlist, 2):
-        seq1 = str(a.seq)
-        seq2 = str(b.seq)
-        if IUPACdistance(seq1, seq2) == 0:
-            sp_seq1 = (a.id.split(".")[1])
-            sp_seq2 = (b.id.split(".")[1])
-            seq1_hq = (len(seq1.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
-            seq2_hq = (len(seq2.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
-            if b.id in uniquedict.keys() and sp_seq1 != sp_seq2:
-                print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained.")
-            elif b.id in uniquedict.keys():
-                if seq1_hq > seq2_hq:
-                    del uniquedict[b.id]
-                elif a.id in uniquedict.keys():
-                    del uniquedict[a.id]
+        if a.id in uniquedict.keys() and b.id in uniquedict.keys():
+            seq_a = str(a.seq)
+            seq_b = str(b.seq)
+            if IUPACdistance(seq_a, seq_b) == 0:
+                sp_seq_a = (a.id.split(".")[1])
+                sp_seq_b = (b.id.split(".")[1])
+                seq_a_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
+                seq_b_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
+                if sp_seq_a != sp_seq_b:
+                    print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained.")
+                else:
+                    if seq_a_hq > seq_b_hq:
+                        del uniquedict[b.id]
+                    else:
+                        del uniquedict[a.id]
     print("Unique sequences (p-dist != 0) with minimum length: " + str(len(uniquedict))) 
     unique_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat)

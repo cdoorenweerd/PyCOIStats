@@ -3,7 +3,6 @@
 
 
 from Bio import SeqIO
-from Bio.Alphabet import IUPAC
 import itertools
 import argparse
 from basefunctions import IUPACdistance
@@ -26,7 +25,7 @@ outputfile = str("qualifying_" + str(inputfile))
 
 def seq_len_purge(inputfile, inputfileformat, min_len):
     min_len_seqs = []
-    sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+    sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
         seq = str(record.seq)
         if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
@@ -58,7 +57,7 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
                     del uniquedict[a.id]
     print("Unique sequences (p-dist != 0) with minimum length: " + str(len(uniquedict))) 
     unique_seqs = []
-    sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+    sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
         if record.id in uniquedict.keys():
             unique_seqs.append(record)
@@ -66,7 +65,7 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
 
 
 count = 0
-sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+sequences = SeqIO.parse(inputfile, inputfileformat)
 for record in sequences:
         count += 1
 print("Found " + str(count) + " sequences in inputfile.")

@@ -2,7 +2,6 @@
 # Camiel Doorenweerd 2020
 
 from Bio import SeqIO
-from Bio.Alphabet import IUPAC
 import itertools
 import os
 import argparse
@@ -39,7 +38,7 @@ def IUPACdistance(seq1, seq2):
 
 
 def createlistofspecies(inputfile, fileformat):
-    sequences = SeqIO.parse(inputfile, fileformat, alphabet=IUPAC.ambiguous_dna)
+    sequences = SeqIO.parse(inputfile, fileformat)
     listofspecies = []
     for record in sequences:
         speciesname = (record.id.split(".")[1])
@@ -53,7 +52,7 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
     speciesstats = []
     for speciesname in listofspecies:
         recordlist = []
-        sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+        sequences = SeqIO.parse(inputfile, inputfileformat)
         for record in sequences:
             if (record.id.split(".")[1]) == speciesname:        
                 recordlist.append(record)

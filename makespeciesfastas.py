@@ -3,7 +3,6 @@
 
 import argparse
 from Bio import SeqIO
-from Bio.Alphabet import IUPAC
 from pathlib import Path
 from basefunctions import createlistofspecies
 
@@ -27,7 +26,7 @@ listofspecies = createlistofspecies(inputfile, inputfileformat)
 
 for speciesname in listofspecies:
     recordlist = []
-    sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+    sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
         if (record.id.split(".")[1]) == speciesname:        
             recordlist.append(record)

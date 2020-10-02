@@ -1,5 +1,4 @@
 from Bio import SeqIO
-from Bio.Alphabet import IUPAC
 
 
 def IUPACdistance(seq1, seq2):
@@ -18,7 +17,7 @@ def IUPACdistance(seq1, seq2):
 
 
 def createlistofspecies(inputfile, fileformat):
-    sequences = SeqIO.parse(inputfile, fileformat, alphabet=IUPAC.ambiguous_dna)
+    sequences = SeqIO.parse(inputfile, fileformat)
     listofspecies = []
     for record in sequences:
         speciesname = (record.id.split(".")[1])

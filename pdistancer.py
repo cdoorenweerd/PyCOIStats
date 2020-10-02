@@ -7,7 +7,6 @@ import argparse
 import os
 from statistics import mean
 from Bio import SeqIO
-from Bio.Alphabet import IUPAC
 from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies
 
@@ -36,7 +35,7 @@ def average(list):
 
 
 pdistdict = []
-sequences = SeqIO.parse(inputfile, inputfileformat, alphabet=IUPAC.ambiguous_dna)
+sequences = SeqIO.parse(inputfile, inputfileformat)
 for a, b in itertools.combinations(sequences, 2):
     pdist = IUPACdistance(str(a.seq), str(b.seq))
     pdistdict.append({(str(a.id) + '.' + str(b.id) + '.'): pdist})

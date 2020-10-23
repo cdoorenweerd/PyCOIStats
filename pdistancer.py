@@ -73,7 +73,7 @@ for speciesname in listofspecies:
             neighbors.update({species2: [pdist]})
         elif speciesname == species2 != species1:
             interperspecies.append(pdist)
-            neighbors.update({species2: [pdist]})
+            neighbors.update({species1: [pdist]})
     d_max = 'N/A'
     dmin_nn = 'N/A'
     nearestneighbor = 'N/A'

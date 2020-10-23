@@ -28,7 +28,7 @@ See further instructions on how to use conda environments at https://docs.conda.
 
 ### Unique haplotypes
 
-A unique haplotype is defined as a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
+A principle difference between PyCOIStats and most other software is in how it defines a unique haplotype. A unique haplotype is a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
 
 For example:
 
@@ -36,10 +36,19 @@ AACTGTCA and AACTNY-A
 
 Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
 
+This also affects the pairwise distance estimates. Assume for example the following two sequences:
+
+CGTAATNN
+GGTAATGC
+
+Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the N's and not counting them towards compared strand length): 16.7% difference
+
+Ideally, when COI data is of extremely high quality and all sequences are of equal length and have no ambiguous bases, this would not make a difference. However, practice is that missing or ambiguous data is common and should be interpreted correctly.
+
 
 ### Computational demand
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in a couple of hours on most desktop machines, for larger datasets a cluster is advisable.
+The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable.
 
 
 ### Fasta input format
@@ -49,6 +58,8 @@ ALL SEQUENCES MUST BE PROPERLY ALIGNED
 The scripts were created for COI sequence data but will work on any protein coding aligned mitochondrial DNA sequence dataset. The functions will work on nuclear DNA as well, but ambiguity codes there can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count ambiguities as differences with nuDNA.
 
 ### Species name recognition
+
+SAMPLE NAMING CONVENTION
 
 The scripts will use anything after a period "." in the sample identifier as the species name. Sample identifiers must be unique for each sequence. So for example this would work:
 
@@ -71,7 +82,7 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `seq_purger.py` retains sequences that meet the minimum length requirement and are unique haplotypes, and writes the result to a new fasta. Identical haplotypes across different species issue a warning and are retained.
 
-- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv.
+- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2, a second csv table is produced with statistics per species.
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the output from ```pdistancer.py``` and output the graphs for publication.
 
@@ -80,7 +91,3 @@ For each script, run `python script.py -h` for usage instructions.
 - `chao1.py` Uses all species' fastas in /species_fastas to run the SpideR_chao1.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
 
 - `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)
-
-# Example workflow
-
-To do.

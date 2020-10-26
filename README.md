@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
 
 # PyCOIStats package
-A collection of scripts to manage COI data, calculate pairwise distances and plot them.
+A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances and plot graphs of this data.
 
 ### Dependencies
 
@@ -26,22 +26,21 @@ e.g. using
 See further instructions on how to use conda environments at https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
 
-### Unique haplotypes
+### Distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a unique haplotype. A unique haplotype is a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
 
-For example:
+For example for deciding whether two haplotypes are distinct:
 
 AACTGTCA and AACTNY-A
 
-Are considered 'identical' haplotypes (or you might say 'compatible' or 'non-unique').
+are considered 'identical' haplotypes (or you might say 'compatible' or 'non-distinct').
 
-This also affects the pairwise distance estimates. Assume for example the following two sequences:
+This principle also affects the pairwise distance estimates. Assume for example the following two sequences:
 
-CGTAATNN
-GGTAATGC
+GTAAYTNN and GTAACTGC
 
-Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the N's and not counting them towards compared strand length): 16.7% difference
+Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the ambiguities and not counting them towards compared strand length): 16.7% difference
 
 Ideally, when COI data is of extremely high quality and all sequences are of equal length and have no ambiguous bases, this would not make a difference. However, practice is that missing or ambiguous data is common and should be interpreted correctly.
 

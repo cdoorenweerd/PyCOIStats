@@ -81,9 +81,10 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `seq_purger.py` retains sequences that meet the minimum length requirement and are unique haplotypes, and writes the result to a new fasta. Identical haplotypes across different species issue a warning and are retained.
 
-- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2, a second csv table is produced with statistics per species.
+- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2 and later, a second csv table is produced with statistics per species [intra_Dmax, n_intra comparisons, avg_inter distance, inter_Dmin_nn, n inter comparison, neirest neighbor].
 
-- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the output from ```pdistancer.py``` and output the graphs for publication.
+
+- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 
 - `makespeciesfastas.py` will generate a separate fasta for each species in the folder /species_fastas
 

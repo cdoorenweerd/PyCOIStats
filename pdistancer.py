@@ -11,7 +11,7 @@ from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies
 
 
-parser = argparse.ArgumentParser(description="Script to calculate all inter and intra pairwise distances, and intra Dmax and inter Dmin_NN and outputs to csv.")
+parser = argparse.ArgumentParser(description="Script to calculate all inter and intra pairwise distances, and intra Dmax and inter Dmin_NN and outputs to an overall csv and one with statistics per species.")
 parser.add_argument("-i", "--inputfile", metavar="", required=True,
                     help="Sequences input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
@@ -63,17 +63,22 @@ for speciesname in listofspecies:
     interperspecies = []
     neighbors = {}
     for pair in pdistdict:
+        # key:value format in pdistdict: {'ms10777.Bactrocera_dorsalis.ms09021.Bactrocera_dorsalis.': 0.004021447721179625}
+        species1_id = str(pair).split(".")[0]
         species1 = str(pair).split(".")[1]
+        species2_id = str(pair).split(".")[2]
         species2 = str(pair).split(".")[3]
-        pdist = float((str(pair).split(": ")[1]).replace("}", "")) # there is probably a better way to do this
+        pdist = float((str(pair).split(": ")[1]).replace("}", "")) # there is probably a better way to do this; pair.values() ?
         if speciesname == species1 == species2:
             intraperspecies.append(pdist)
         elif speciesname == species1 != species2:
             interperspecies.append(pdist)
-            neighbors.update({species2: [pdist]})
+            species2_wid = species2_id + '.' + species2
+            neighbors.update({species2_wid: [pdist]})
         elif speciesname == species2 != species1:
             interperspecies.append(pdist)
-            neighbors.update({species1: [pdist]})
+            species1_wid = species1_id + '.' + species1
+            neighbors.update({species1_wid: [pdist]})
     d_max = 'N/A'
     dmin_nn = 'N/A'
     nearestneighbor = 'N/A'
@@ -91,7 +96,7 @@ for speciesname in listofspecies:
         dmaxvalues.append(d_max)
         sp_avg[speciesname][1] = d_max
     if len(interperspecies) > 0:
-        dmin_nn = min(interperspecies)
+        dmin_nn = min(interperspecies) # should be redundant with d_nearestneighbor but keep for testing
         dmin_nnvalues.append(dmin_nn)
         sp_avg[speciesname][4] = dmin_nn
     if len(neighbors) > 0:

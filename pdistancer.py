@@ -34,6 +34,7 @@ def average(list):
     return avg
 
 
+print("Generating pairwise distance matrix")
 pdistdict = []
 sequences = AlignIO.read(inputfile, inputfileformat)
 print(sequences)
@@ -42,7 +43,7 @@ for a, b in itertools.combinations(sequences, 2):
     pdistdict.append({(str(a.id) + '.' + str(b.id) + '.'): pdist})
 print(str(len(pdistdict)) + " pairwise comparisons.")
 
-
+print("Calculating overall intra- and interspecific values")
 intravalues = []
 intervalues = []
 for pair in pdistdict:
@@ -56,7 +57,7 @@ for pair in pdistdict:
 print(str(len(intravalues)) + " intraspecific values.")
 print(str(len(intervalues)) + " interspecific values.")
 
-
+print("Calculating statistics per species")
 listofspecies = createlistofspecies(inputfile, inputfileformat)
 dmaxvalues = []
 dmin_nnvalues = []

@@ -6,7 +6,7 @@ import pandas as pd
 import argparse
 import os
 from statistics import mean
-from Bio import SeqIO
+from Bio import AlignIO
 from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies
 
@@ -35,11 +35,13 @@ def average(list):
 
 
 pdistdict = []
-sequences = SeqIO.parse(inputfile, inputfileformat)
+sequences = AlignIO.read(inputfile, inputfileformat)
+print(sequences)
 for a, b in itertools.combinations(sequences, 2):
     pdist = IUPACdistance(str(a.seq), str(b.seq))
     pdistdict.append({(str(a.id) + '.' + str(b.id) + '.'): pdist})
 print(str(len(pdistdict)) + " pairwise comparisons.")
+
 
 intravalues = []
 intervalues = []
@@ -53,7 +55,8 @@ for pair in pdistdict:
         intervalues.append(pdist)
 print(str(len(intravalues)) + " intraspecific values.")
 print(str(len(intervalues)) + " interspecific values.")
-        
+
+
 listofspecies = createlistofspecies(inputfile, inputfileformat)
 dmaxvalues = []
 dmin_nnvalues = []
@@ -64,7 +67,7 @@ for speciesname in listofspecies:
     neighbors = {}
     for pair in pdistdict:
         # key:value format in pdistdict: {'ms10777.Bactrocera_dorsalis.ms09021.Bactrocera_dorsalis.': 0.004021447721179625}
-        species1_id = str(pair).split(".")[0]
+        species1_id = str(pair).split(".")[0].replace("{'", "")
         species1 = str(pair).split(".")[1]
         species2_id = str(pair).split(".")[2]
         species2 = str(pair).split(".")[3]
@@ -89,19 +92,17 @@ for speciesname in listofspecies:
                                  average(interperspecies),
                                  dmin_nn,
                                  len(interperspecies),
-                                 nearestneighbor,
-                                 d_nearestneighbor]})
+                                 nearestneighbor]})
     if len(intraperspecies) > 0:
         d_max = max(intraperspecies)
         dmaxvalues.append(d_max)
         sp_avg[speciesname][1] = d_max
     if len(interperspecies) > 0:
-        dmin_nn = min(interperspecies) # should be redundant with d_nearestneighbor but keep for testing
+        dmin_nn = min(interperspecies)
         dmin_nnvalues.append(dmin_nn)
         sp_avg[speciesname][4] = dmin_nn
     if len(neighbors) > 0:
         d_nearestneighbor = min(neighbors.values())
-        sp_avg[speciesname][7] = d_nearestneighbor
         nearestneighbor = list(neighbors.keys())[list(neighbors.values()).index(d_nearestneighbor)]
         sp_avg[speciesname][6] = nearestneighbor
 
@@ -116,8 +117,7 @@ df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra',
                                                                     'avg_inter',
                                                                     'inter_dmin_nn',
                                                                     'n_inter',
-                                                                    'nearest_neighbor',
-                                                                    'd_nearestneighbor'])
+                                                                    'nearest_neighbor'])
 df_sp_avg.to_csv(speciesstatsfile)
 print("P-distance averages per species written to " + str(outputfile))
 

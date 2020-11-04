@@ -2,7 +2,7 @@
 # Camiel Doorenweerd 2020
 
 
-from Bio import SeqIO
+from Bio import AlignIO
 import itertools
 import argparse
 from basefunctions import IUPACdistance
@@ -25,7 +25,7 @@ outputfile = str("qualifying_" + str(inputfile))
 
 def seq_len_filter(inputfile, inputfileformat, min_len):
     min_len_seqs = []
-    sequences = SeqIO.parse(inputfile, inputfileformat)
+    sequences = AlignIO.read(inputfile, inputfileformat)
     for record in sequences:
         seq = str(record.seq)
         if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
@@ -58,18 +58,15 @@ def isdistinct(min_len_seqs, inputfile, inputfileformat):
                         del distinctdict[a.id]
     print("Distinct sequences (p-dist != 0) with minimum length: " + str(len(distinctdict))) 
     distinct_seqs = []
-    sequences = SeqIO.parse(inputfile, inputfileformat)
+    sequences = AlignIO.read(inputfile, inputfileformat)
     for record in sequences:
         if record.id in distinctdict.keys():
             distinct_seqs.append(record)
     return distinct_seqs
 
 
-count = 0
-sequences = SeqIO.parse(inputfile, inputfileformat)
-for record in sequences:
-        count += 1
-print("Found " + str(count) + " sequences in inputfile.")
+sequences = AlignIO.read(inputfile, inputfileformat)
+print("Found " + str(len(sequences)) + " sequences in inputfile.")
 
 
 min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)

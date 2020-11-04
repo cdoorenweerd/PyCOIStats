@@ -73,5 +73,5 @@ min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)
 distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)
 
 
-SeqIO.write(distinct_min_len_seqs, outputfile, "fasta")
+AlignIO.write(distinct_min_len_seqs, outputfile, "fasta")
 print("Qualifying sequences written to " + str(outputfile))

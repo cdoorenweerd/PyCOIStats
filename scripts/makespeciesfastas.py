@@ -2,7 +2,7 @@
 # Camiel Doorenweerd 2020
 
 import argparse
-from Bio import SeqIO
+from Bio import AlignIO
 from pathlib import Path
 from basefunctions import createlistofspecies
 
@@ -26,10 +26,10 @@ listofspecies = createlistofspecies(inputfile, inputfileformat)
 
 for speciesname in listofspecies:
     recordlist = []
-    sequences = SeqIO.parse(inputfile, inputfileformat)
+    sequences = AlignIO.read(inputfile, inputfileformat)
     for record in sequences:
         if (record.id.split(".")[1]) == speciesname:        
             recordlist.append(record)
     print(str(len(recordlist)) + " sequence(s) for " + str(speciesname))
     if len(recordlist) >= min_seqs:
-        SeqIO.write(recordlist, ("./species_fastas/" + str(speciesname) + ".fas"), "fasta")
+        AlignIO.write(recordlist, ("./species_fastas/" + str(speciesname) + ".fas"), "fasta")

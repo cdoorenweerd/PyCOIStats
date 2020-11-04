@@ -1,7 +1,7 @@
 #/usr/bin/env python
 # Camiel Doorenweerd 2020
 
-from Bio import SeqIO
+from Bio import AlignIO
 import itertools
 import os
 import argparse
@@ -28,7 +28,7 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
     speciesstats = []
     for speciesname in listofspecies:
         recordlist = []
-        sequences = SeqIO.parse(inputfile, inputfileformat)
+        sequences = AlignIO.read(inputfile, inputfileformat)
         for record in sequences:
             if (record.id.split(".")[1]) == speciesname:        
                 recordlist.append(record)

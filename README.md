@@ -88,6 +88,6 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `makespeciesfastas.py` will generate a separate fasta for each species in the folder /species_fastas
 
-- `chao1.py` Uses all species' fastas in /species_fastas to run the SpideR_chao1.R script to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have not been removed.
+- `chao1.py` A wrapper python script to run SpideR_chao1.R. Uses all species' fastas in /species_fastas to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have NOT been removed.
 
 - `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)

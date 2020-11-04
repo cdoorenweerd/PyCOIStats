@@ -1,4 +1,4 @@
-from Bio import SeqIO
+from Bio import AlignIO
 
 
 def IUPACdistance(seq1, seq2):
@@ -17,7 +17,7 @@ def IUPACdistance(seq1, seq2):
 
 
 def createlistofspecies(inputfile, fileformat):
-    sequences = SeqIO.parse(inputfile, fileformat)
+    sequences = AlignIO.read(inputfile, fileformat)
     listofspecies = []
     for record in sequences:
         speciesname = (record.id.split(".")[1])

@@ -2,6 +2,7 @@
 # Camiel Doorenweerd 2020
 
 
+from Bio import SeqIO
 from Bio import AlignIO
 import itertools
 import argparse
@@ -20,7 +21,7 @@ args = parser.parse_args()
 inputfile = args.inputfile
 inputfileformat = args.inputfileformat
 min_len = args.minlength
-outputfile = str("qualifying_" + str(inputfile))
+outputfile = str("q_" + str(inputfile))
 
 
 def seq_len_filter(inputfile, inputfileformat, min_len):
@@ -58,7 +59,7 @@ def isdistinct(min_len_seqs, inputfile, inputfileformat):
                         del distinctdict[a.id]
     print("Distinct sequences (p-dist != 0) with minimum length: " + str(len(distinctdict))) 
     distinct_seqs = []
-    sequences = AlignIO.read(inputfile, inputfileformat)
+    sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
         if record.id in distinctdict.keys():
             distinct_seqs.append(record)
@@ -73,5 +74,5 @@ min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)
 distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)
 
 
-AlignIO.write(distinct_min_len_seqs, outputfile, "fasta")
+SeqIO.write(distinct_min_len_seqs, outputfile, "fasta")
 print("Qualifying sequences written to " + str(outputfile))

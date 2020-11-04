@@ -47,7 +47,7 @@ Ideally, when COI data is of extremely high quality and all sequences are of equ
 
 ### Computational demand
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle ~5,000 sequences in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable.
+The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle 5,000 sequences [12.5 million pairwise comparisons] in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable. I have not tested the limits of dataset sizes that can be handled, but 10,000 sequences [50 million pairwise comparisons] is probably pushing it.
 
 
 ### Fasta input format

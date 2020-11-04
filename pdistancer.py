@@ -42,7 +42,7 @@ def pcomparisons(inputfile, inputfileformat):
     for a, b in itertools.combinations(sequences, 2):
         pdist = IUPACdistance(str(a.seq), str(b.seq))
         pdistdict.append({(str(a.id) + '.' + str(b.id) + '.'): pdist})
-    print(str(len(pdistdict)) + " pairwise comparisons.")
+    print(str(len(pdistdict)) + " pairwise comparisons")
     return pdistdict
 
 
@@ -112,27 +112,27 @@ def speciesstats(pdistdict):
             nearestneighbor = list(neighbors.keys())[list(neighbors.values()).index(d_nearestneighbor)]
             sp_avg[speciesname][6] = nearestneighbor
     df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra',
-                                                                    'intra_d_max',
-                                                                    'n_intra',
-                                                                    'avg_inter',
-                                                                    'inter_dmin_nn',
-                                                                    'n_inter',
-                                                                    'nearest_neighbor'])
+                                                                        'intra_d_max',
+                                                                        'n_intra',
+                                                                        'avg_inter',
+                                                                        'inter_dmin_nn',
+                                                                        'n_inter',
+                                                                        'nearest_neighbor'])
     return df_sp_avg,dmaxvalues,dmin_nnvalues
 
 
 pdistdict = pcomparisons(inputfile, inputfileformat)
 
 intravalues,intervalues = overallstats(pdistdict)
-print(str(len(intravalues)) + " intraspecific values.")
+print(str(len(intravalues)) + " intraspecific values")
 df_intra = pd.DataFrame({'all_intra': intravalues})
-print(str(len(intervalues)) + " interspecific values.")
+print(str(len(intervalues)) + " interspecific values")
 df_inter = pd.DataFrame({'all_inter': intervalues})
 
 df_sp_avg,dmaxvalues,dmin_nnvalues = speciesstats(pdistdict)
 print(str(len(dmaxvalues)) + " intraspecific Dmax values")
 df_intradmax = pd.DataFrame({'intra_dmax': dmaxvalues})
-print(str(len(dmin_nnvalues)) + " interspecific Dmix_NN values")
+print(str(len(dmin_nnvalues)) + " interspecific Dmin_NN values")
 df_interdmin_nn = pd.DataFrame({'inter_dmin_nn': dmin_nnvalues})
 
 df_sp_avg.to_csv(speciesstatsfile)

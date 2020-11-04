@@ -136,8 +136,8 @@ print(str(len(dmin_nnvalues)) + " interspecific Dmix_NN values")
 df_interdmin_nn = pd.DataFrame({'inter_dmin_nn': dmin_nnvalues})
 
 df_sp_avg.to_csv(speciesstatsfile)
-print("P-distance averages per species written to " + str(outputfile))
+print("Averages per species and nearest neighbors written to " + str(speciesstatsfile))
 
 df_distances = pd.concat([df_intra,df_intradmax,df_inter,df_interdmin_nn], ignore_index=False, axis=1)
 df_distances.to_csv(outputfile)
-print("All p-distances written to " + str(outputfile))
+print("Overall intra, inter, Dmax and Dmin_NN distances written to " + str(outputfile))

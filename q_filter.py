@@ -23,7 +23,7 @@ min_len = args.minlength
 outputfile = str("qualifying_" + str(inputfile))
 
 
-def seq_len_purge(inputfile, inputfileformat, min_len):
+def seq_len_filter(inputfile, inputfileformat, min_len):
     min_len_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
@@ -34,14 +34,14 @@ def seq_len_purge(inputfile, inputfileformat, min_len):
     return min_len_seqs
 
 
-def uniques(min_len_seqs, inputfile, inputfileformat):
+def isdistinct(min_len_seqs, inputfile, inputfileformat):
     recordlist = []
-    uniquedict = {}   
+    distinctdict = {}   
     for record in min_len_seqs:
-        uniquedict[record.id] = record.seq
+        distinctdict[record.id] = record.seq
         recordlist.append(record)
     for a, b in itertools.combinations(recordlist, 2):
-        if a.id in uniquedict.keys() and b.id in uniquedict.keys():
+        if a.id in distinctdict.keys() and b.id in distinctdict.keys():
             seq_a = str(a.seq)
             seq_b = str(b.seq)
             if IUPACdistance(seq_a, seq_b) == 0:
@@ -53,16 +53,16 @@ def uniques(min_len_seqs, inputfile, inputfileformat):
                     seq_a_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
                     seq_b_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
                     if seq_a_hq > seq_b_hq:
-                        del uniquedict[b.id]
+                        del distinctdict[b.id]
                     else:
-                        del uniquedict[a.id]
-    print("Unique sequences (p-dist != 0) with minimum length: " + str(len(uniquedict))) 
-    unique_seqs = []
+                        del distinctdict[a.id]
+    print("Distinct sequences (p-dist != 0) with minimum length: " + str(len(distinctdict))) 
+    distinct_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
-        if record.id in uniquedict.keys():
-            unique_seqs.append(record)
-    return unique_seqs
+        if record.id in distinctdict.keys():
+            distinct_seqs.append(record)
+    return distinct_seqs
 
 
 count = 0
@@ -72,9 +72,9 @@ for record in sequences:
 print("Found " + str(count) + " sequences in inputfile.")
 
 
-min_len_seqs = seq_len_purge(inputfile, inputfileformat, min_len)
-unique_min_len_seqs = uniques(min_len_seqs, inputfile, inputfileformat)
+min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)
+distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)
 
 
-SeqIO.write(unique_min_len_seqs, outputfile, "fasta")
+SeqIO.write(distinct_min_len_seqs, outputfile, "fasta")
 print("Qualifying sequences written to " + str(outputfile))

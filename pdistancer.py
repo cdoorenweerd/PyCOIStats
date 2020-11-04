@@ -113,11 +113,11 @@ def speciesstats(pdistdict):
             sp_avg[speciesname][6] = nearestneighbor
     df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra',
                                                                         'intra_d_max',
-                                                                        'n_intra',
+                                                                        'n_intra_comparisons',
                                                                         'avg_inter',
                                                                         'inter_dmin_nn',
-                                                                        'n_inter',
-                                                                        'nearest_neighbor'])
+                                                                        'n_inter_comparisons',
+                                                                        'nearest_neighbor(s)'])
     return df_sp_avg,dmaxvalues,dmin_nnvalues
 
 

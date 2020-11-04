@@ -77,11 +77,11 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 For each script, run `python script.py -h` for usage instructions.
 
 
-- `hapcounter.py` counts the total number of sequences and unique haplotypes per species and outputs to csv table.
+- `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 
-- `seq_purger.py` retains sequences that meet the minimum length requirement and are unique haplotypes, and writes the result to a new fasta. Identical haplotypes across different species issue a warning and are retained.
+- `seq_purger.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained.
 
-- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2 and later, a second csv table is produced with statistics per species [intra_Dmax, n_intra comparisons, avg_inter distance, inter_Dmin_nn, n inter comparison, neirest neighbor].
+- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2 and later, a second csv table is produced with statistics per species [intra_Dmax, n_intra comparisons, avg_inter distance, inter_Dmin_nn, n inter comparison, nearest neighbor].
 
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.

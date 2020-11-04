@@ -5,7 +5,6 @@ import itertools
 import pandas as pd
 import argparse
 import os
-from statistics import mean
 from Bio import AlignIO
 from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies

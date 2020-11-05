@@ -2,47 +2,36 @@
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
 
 # PyCOIStats package
-A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances and plot graphs of this data. Uses Python 3.6 or later.
+A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances, and plot graphs of this data. Uses Python 3.6 or later.
 
 ### Dependencies
 
 All dependencies are available through Anaconda (https://anaconda.org/anaconda/repo). It is recommended to create a new conda environment with the required packages:
 
-- pandas
-- itertools
-- biopython
-- numpy
-- argparse
-- os
-- matplotlib
-- seaborn
-- csvkit
-- r-base
-
 e.g. using
 
-```conda create -n pycoistats python=3.6 pandas itertools biopython numpy argpase os matplotlib seaborn csvkit r-base```
+```conda create -n pycoistats python=3.6 -c bioconda -c conda-forge pandas itertools biopython numpy argpase os matplotlib seaborn csvkit r-base```
 
-See further instructions on how to use conda environments at https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
+For further instructions on how to use conda environments see the [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 
 
 ### Distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
 
 ![IUPAC ambiguity codes](IUPAC_codes.png)
 
-For example for deciding whether two haplotypes are distinct:
+For example:
 
 AACTGTCA and AACTNY-A
 
-are considered 'identical' haplotypes (or you might say 'compatible' or 'non-distinct').
+are considered non-distinct haplotypes (or you might say 'compatible').
 
-This principle also affects the pairwise distance estimates. Assume for example the following two sequences:
+This also affects pairwise distance estimates. Assume for example the following two sequences:
 
 GTAAYTNN and GTAACTGC
 
-Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the ambiguities and not counting them towards compared strand length): 16.7% difference
+Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the ambiguities and not counting them towards compared strand length): 16.7% difference.
 
 Ideally, when COI data is of extremely high quality and all sequences are of equal length and have no ambiguous bases, this would not make a difference. However, practice is that missing or ambiguous data is common and should be interpreted correctly.
 
@@ -78,6 +67,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 For each script, run `python script.py -h` for usage instructions.
 
+- `aln_renamer.py` will change all sequence names in a fasta alignment based on a two column csv file. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
 
 - `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 

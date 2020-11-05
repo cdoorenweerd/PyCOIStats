@@ -30,6 +30,8 @@ See further instructions on how to use conda environments at https://docs.conda.
 
 A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence; i.e. IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
 
+![IUPAC ambiguity codes](IUPAC_codes.png)
+
 For example for deciding whether two haplotypes are distinct:
 
 AACTGTCA and AACTNY-A
@@ -90,4 +92,11 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `chao1.py` A wrapper python script to run SpideR_chao1.R. Uses all species' fastas in /species_fastas to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have NOT been removed.
 
-- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf)
+- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf) [This script is in BETA development and requires some manual modification of folders in the script to match local structure to work].
+
+
+### Example workflows
+
+![IUPAC ambiguity codes](workflow_example.png)
+
+

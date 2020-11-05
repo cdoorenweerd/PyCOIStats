@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
 
 # PyCOIStats package
-A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances and plot graphs of this data.
+A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances and plot graphs of this data. Uses Python 3.6 or later.
 
 ### Dependencies
 
@@ -81,10 +81,11 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 
+- `3rdcodonremover.py` filters the third codon positions from an alignment.
+
 - `q_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained.
 
 - `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2 and later, a second csv table is produced with statistics per species [intra_Dmax, n_intra comparisons, avg_inter distance, inter_Dmin_nn, n inter comparison, nearest neighbor].
-
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 

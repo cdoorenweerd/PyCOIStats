@@ -5,6 +5,7 @@ import itertools
 import pandas as pd
 import argparse
 import os
+import time
 from Bio import AlignIO
 from basefunctions import IUPACdistance
 from basefunctions import createlistofspecies
@@ -12,9 +13,9 @@ from basefunctions import createlistofspecies
 
 parser = argparse.ArgumentParser(description="Script to calculate all inter and intra pairwise distances, and intra Dmax and inter Dmin_NN and outputs to an overall csv and one with statistics per species.")
 parser.add_argument("-i", "--inputfile", metavar="", required=True,
-                    help="Sequences input file name")
+                    help="Alignment input file name")
 parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
-                    help="'fasta' [default] is recommended, other formats not tested")
+                    help="'fasta' [default] is recommended, other formats not tested but may work")
 args = parser.parse_args()
 
 
@@ -25,118 +26,99 @@ outputfile = str(str(inputfileclean) + "_pdistances.csv")
 speciesstatsfile = str(str(inputfileclean) + "_speciesstats.csv")
 
 
-def average(list):
-    if len(list) > 0:
-        avg = sum(list) / len(list)
-    else:
-        avg = 'N/A'
-    return avg
-
-
 def pcomparisons(inputfile, inputfileformat):
-    pdistdict = []
+    starttime = time.perf_counter()
     sequences = AlignIO.read(inputfile, inputfileformat)
     print(sequences)
-    print("Generating pairwise distance matrix")
+    print("Generating pairwise distance matrix, this may take a while...")
+    pdist_dict = {}
     for a, b in itertools.combinations(sequences, 2):
         pdist = IUPACdistance(str(a.seq), str(b.seq))
-        pdistdict.append({(str(a.id) + '.' + str(b.id) + '.'): pdist})
-    print(str(len(pdistdict)) + " pairwise comparisons")
-    return pdistdict
+        species1_id = str(a.id).split(".")[0]
+        species1 = str(a.id).split(".")[1]
+        species2_id = str(b.id).split(".")[0]
+        species2 = str(b.id).split(".")[1]
+        key = species1_id + "|" + species2_id
+        pdist_dict.update({key: [species1_id, species1, species2_id, species2, pdist]})
+    df_pdist = pd.DataFrame.from_dict(pdist_dict, orient='index', 
+                                      columns=['species1_id', 'species1',
+                                               'species2_id', 'species2',
+                                               'pdist'])
+    print(str(len(df_pdist.index)) + " pairwise comparisons")
+    endtime = time.perf_counter()
+    runtime = round((endtime - starttime),3)
+    print(str(runtime) + " seconds to calculate pairwise distances")
+    return df_pdist
 
 
-def overallstats(pdistdict):
-    print("Calculating overall intra- and interspecific values")
-    intravalues = []
-    intervalues = []
-    for pair in pdistdict:
-        species1 = str(pair).split(".")[1]
-        species2 = str(pair).split(".")[3]
-        pdist = float((str(pair).split(": ")[1]).replace("}", "")) # there is probably a better way to do this
-        if species1 == species2:
-            intravalues.append(pdist)
-        else:
-            intervalues.append(pdist)
-    return intravalues,intervalues
+def overallstats(df_pdist):
+    starttime = time.perf_counter()
+    print("Sorting intra- and interspecific values")
+    df_intra = df_pdist[df_pdist['species1'] == df_pdist['species2']]
+    print(str(len(df_intra.index)) + ' intraspecific distance values')
+    df_inter = df_pdist[df_pdist['species1'] != df_pdist['species2']]
+    print(str(len(df_inter.index)) + ' interspecific distance values')
+    endtime = time.perf_counter()
+    runtime = round((endtime - starttime),3)
+    print(str(runtime) + " seconds to sort")
+    return df_intra, df_inter
 
 
-def speciesstats(pdistdict):
+def neighbor_species(row,speciesname):
+    if row['species1'] == speciesname:
+        return row['species2']
+    if row['species2'] == speciesname:
+        return row['species1']
+
+
+def speciesstats(df_pdist):
+    starttime = time.perf_counter()
     print("Calculating statistics per species")
     listofspecies = createlistofspecies(inputfile, inputfileformat)
     dmaxvalues = []
     dmin_nnvalues = []
     sp_avg = {}
     for speciesname in listofspecies:
-        intraperspecies = []
-        interperspecies = []
-        neighbors = {}
-        for pair in pdistdict:
-            # key:value format in pdistdict: {'ms10777.Bactrocera_dorsalis.ms09021.Bactrocera_dorsalis.': 0.004021447721179625}
-            species1_id = str(pair).split(".")[0].replace("{'", "")
-            species1 = str(pair).split(".")[1]
-            species2_id = str(pair).split(".")[2]
-            species2 = str(pair).split(".")[3]
-            pdist = float((str(pair).split(": ")[1]).replace("}", "")) # there is probably a better way to do this; pair.values() ?
-            if speciesname == species1 == species2:
-                intraperspecies.append(pdist)
-            elif speciesname == species1 != species2:
-                interperspecies.append(pdist)
-                species2_wid = species2_id + '.' + species2
-                neighbors.update({species2_wid: [pdist]})
-            elif speciesname == species2 != species1:
-                interperspecies.append(pdist)
-                species1_wid = species1_id + '.' + species1
-                neighbors.update({species1_wid: [pdist]})
-        d_max = 'N/A'
-        dmin_nn = 'N/A'
-        nearestneighbor = 'N/A'
-        d_nearestneighbor = 'N/A'
-        sp_avg.update({speciesname: [average(intraperspecies),
-                                     d_max,
-                                     len(intraperspecies),
-                                     average(interperspecies),
-                                     dmin_nn,
-                                     len(interperspecies),
+        df_intraperspecies = df_pdist[(df_pdist['species1'] == speciesname) & (df_pdist['species2'] == speciesname)]
+        avg_intra = df_intraperspecies['pdist'].mean() # turn to N/A when empty?
+        d_max = df_intraperspecies['pdist'].max() # turn to N/A when empty?
+        dmaxvalues.append(d_max)
+        n_intra_comparisons = len(df_intraperspecies.index)
+
+        df_neighbors12 = df_pdist[(df_pdist['species1'] == speciesname) & (df_pdist['species2'] != speciesname)]
+        df_neighbors21 = df_pdist[(df_pdist['species2'] == speciesname) & (df_pdist['species1'] != speciesname)]
+        df_neighbors = pd.concat([df_neighbors12, df_neighbors21], ignore_index=True)
+        df_neighbors['neighbor'] = df_neighbors.apply(lambda row: neighbor_species(row,speciesname), axis=1)
+        avg_inter = df_neighbors['pdist'].mean()
+        dmin_nn = df_neighbors['pdist'].min()
+        dmin_nnvalues.append(dmin_nn)
+        n_inter_comparisons = len(df_neighbors.index)
+        nearestneighbor = df_neighbors[(df_neighbors['pdist'] == dmin_nn)]['neighbor'].iloc[0]
+
+        sp_avg.update({speciesname: [avg_intra, d_max, n_intra_comparisons,
+                                     avg_inter, dmin_nn, n_inter_comparisons,
                                      nearestneighbor]})
-        if len(intraperspecies) > 0:
-            d_max = max(intraperspecies)
-            dmaxvalues.append(d_max)
-            sp_avg[speciesname][1] = d_max
-        if len(interperspecies) > 0:
-            dmin_nn = min(interperspecies)
-            dmin_nnvalues.append(dmin_nn)
-            sp_avg[speciesname][4] = dmin_nn
-        if len(neighbors) > 0:
-            d_nearestneighbor = min(neighbors.values())
-            nearestneighbor = list(neighbors.keys())[list(neighbors.values()).index(d_nearestneighbor)]
-            sp_avg[speciesname][6] = nearestneighbor
-    df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra',
-                                                                        'intra_d_max',
+    df_sp_avg = pd.DataFrame.from_dict(sp_avg, orient='index', columns=['avg_intra', 'intra_d_max',
                                                                         'n_intra_comparisons',
-                                                                        'avg_inter',
-                                                                        'inter_dmin_nn',
+                                                                        'avg_inter', 'inter_dmin_nn',
                                                                         'n_inter_comparisons',
-                                                                        'nearest_neighbor(s)'])
-    return df_sp_avg,dmaxvalues,dmin_nnvalues
+                                                                        'nearest_neighbor'])
+    df_intradmax = pd.DataFrame({'intra_dmax': dmaxvalues})
+    df_interdmin_nn = pd.DataFrame({'inter_dmin_nn': dmin_nnvalues})
+    endtime = time.perf_counter()
+    runtime = round((endtime - starttime),3)
+    print(str(runtime) + " seconds to calculate species statistics")
+    return df_sp_avg, df_intradmax, df_interdmin_nn
 
 
-pdistdict = pcomparisons(inputfile, inputfileformat)
+df_pdist = pcomparisons(inputfile, inputfileformat)
 
-intravalues,intervalues = overallstats(pdistdict)
-print(str(len(intravalues)) + " intraspecific values")
-df_intra = pd.DataFrame({'all_intra': intravalues})
-print(str(len(intervalues)) + " interspecific values")
-df_inter = pd.DataFrame({'all_inter': intervalues})
-
-df_sp_avg,dmaxvalues,dmin_nnvalues = speciesstats(pdistdict)
-print(str(len(dmaxvalues)) + " intraspecific Dmax values")
-df_intradmax = pd.DataFrame({'intra_dmax': dmaxvalues})
-print(str(len(dmin_nnvalues)) + " interspecific Dmin_NN values")
-df_interdmin_nn = pd.DataFrame({'inter_dmin_nn': dmin_nnvalues})
+df_intra, df_inter = overallstats(df_pdist)
+df_sp_avg, df_intradmax, df_interdmin_nn = speciesstats(df_pdist)
 
 df_sp_avg.to_csv(speciesstatsfile)
-print("Averages per species and nearest neighbors written to " + str(speciesstatsfile))
+print("Species statistics written to " + str(speciesstatsfile))
 
-df_distances = pd.concat([df_intra,df_intradmax,df_inter,df_interdmin_nn], ignore_index=False, axis=1)
+df_distances = pd.concat([df_intra[['pdist']],df_intradmax,df_inter[['pdist']],df_interdmin_nn], ignore_index=False, axis=1) # need to clean up header names. # contains NULL values.
 df_distances.to_csv(outputfile)
 print("Overall intra, inter, Dmax and Dmin_NN distances written to " + str(outputfile))

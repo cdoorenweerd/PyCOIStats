@@ -29,9 +29,9 @@ are considered non-distinct haplotypes (or you might say 'compatible').
 
 This also affects pairwise distance estimates. Assume for example the following two sequences:
 
-GTAAYTNN and GTAACTGC
+GCAAYTNN and GTAACTGC
 
-Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 6 bases (ignoring the ambiguities and not counting them towards compared strand length): 16.7% difference.
+Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 5 bases (ignoring the ambiguities and not counting them towards compared strand length): 20.0% difference.
 
 Ideally, when COI data is of extremely high quality and all sequences are of equal length and have no ambiguous bases, this would not make a difference. However, practice is that missing or ambiguous data is common and should be interpreted correctly.
 

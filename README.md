@@ -7,8 +7,9 @@ A collection of scripts to analyze COI data, filter non-distinct haplotypes, cal
 
 ### How to cite
 
-Doorenweerd C, Jose MS, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekayanti A, Fiegalan ER, Hemachandra KS, Chia-lung MAH (2020) DNA barcodes and reliable molecular identifications in a diverse group of invasive pests : lessons from Bactrocera fruit flies on variation across the COI gene , introgression , and standardization. bioRxiv. https://doi.org/10.1101/2020.11.23.394510 
+PyCOIStats vX (Doorenweerd et al. 2020)
 
+Doorenweerd C, San Jose M, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekayanti A, Fiegalan ER, Hemachandra KS, Hossain MA, Huang C-L, Hsu Y-F, Morris KY, Mustapeng AM, Niogret J, Pham TH, Sirisena UGAI, Rubinoff D (2020) DNA barcodes and reliable molecular identifications in a diverse group of invasive pests: lessons from Bactrocera fruit flies on variation across the COI gene, introgression, and standardization. bioRxiv. https://doi.org/10.1101/2020.11.23.394510 
 
 ### Dependencies
 

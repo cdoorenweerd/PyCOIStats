@@ -4,6 +4,12 @@
 # PyCOIStats package
 A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances, and plot graphs of this data. Uses Python 3.6 or later.
 
+
+### How to cite
+
+Doorenweerd C, Jose MS, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekayanti A, Fiegalan ER, Hemachandra KS, Chia-lung MAH (2020) DNA barcodes and reliable molecular identifications in a diverse group of invasive pests : lessons from Bactrocera fruit flies on variation across the COI gene , introgression , and standardization. bioRxiv. https://doi.org/10.1101/2020.11.23.394510 
+
+
 ### Dependencies
 
 All dependencies are available through Anaconda (https://anaconda.org/anaconda/repo). It is recommended to create a new conda environment with the required packages:
@@ -88,6 +94,9 @@ For each script, run `python script.py -h` for usage instructions.
 
 ### Example workflows
 
-![IUPAC ambiguity codes](workflow_example.png)
+![Workflow example](workflow_example.png)
 
 
+Example output, as published in https://doi.org/https://doi.org/10.1101/2020.11.23.394510
+
+![Output example](output_example.png)

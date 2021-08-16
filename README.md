@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
 
 # PyCOIStats package
-A collection of scripts to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances, and plot graphs of this data. Uses Python 3.6 or later.
+A collection of python modules to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances, and plot graphs.
 
 
 ### How to cite
@@ -22,9 +22,9 @@ e.g. using
 For further instructions on how to use conda environments see the [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 
 
-### Distinct haplotypes
+### Defining distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons.
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B.
 
 ![IUPAC ambiguity codes](IUPAC_codes.png)
 
@@ -45,14 +45,14 @@ Ideally, when COI data is of extremely high quality and all sequences are of equ
 
 ### Computational demand
 
-The scripts compare all sequences in a pairwise fashion, so the computational time increases exponentially with more sequences. However, it should be able to handle 5,000 sequences [12.5 million pairwise comparisons] in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable. I have not tested the limits of dataset sizes that can be handled, but 10,000 sequences [50 million pairwise comparisons] is probably pushing it.
+The modules with pairwise comparisons will have exponential increases in computational time increases with more sequences. However, it should be able to handle 5,000 sequences [12.5 million pairwise comparisons] in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable. I have not tested the limits of dataset sizes that can be handled, but 10,000 sequences [50 million pairwise comparisons] is probably pushing it.
 
 
-### Fasta input format
+### Alignment input format
 
-ALL SEQUENCES MUST BE PROPERLY ALIGNED
+SEQUENCES MUST BE PROPERLY ALIGNED. Alignments are imported with the biopython package, covering commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see https://biopython.org/docs/dev/api/Bio.AlignIO.html.
 
-The scripts were created for COI sequence data but will work on any protein coding aligned mitochondrial DNA sequence dataset. The functions will work on nuclear DNA as well, but ambiguity codes there can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count ambiguities as differences with nuDNA.
+The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity codes can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
 
 ### Species name recognition
 
@@ -74,7 +74,9 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 For each script, run `python script.py -h` for usage instructions.
 
-- `aln_renamer.py` will change all sequence names in a fasta alignment based on a two column csv file. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
+- `aln_summary.py` gives a simple count of the variable and parsimony informative sites.
+
+- `aln_renamer.py` changes sequence names in a fasta alignment based on a two column csv file. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
 
 - `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 
@@ -87,10 +89,6 @@ For each script, run `python script.py -h` for usage instructions.
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 
 - `makespeciesfastas.py` will generate a separate fasta for each species in the folder /species_fastas
-
-- `chao1.py` A wrapper python script to run SpideR_chao1.R. Uses all species' fastas in /species_fastas to calculate chao 1 estimates of the total haplotype diversity and returns a csv. Note that the function assumes a large number of specimens have been sampled and that duplicate haplotypes have NOT been removed.
-
-- `SpideR_haploaccum.R` R script that plots haplotype accumulation curves, based on the SpideR package (https://cran.r-project.org/web/packages/spider/spider.pdf) [This script is in BETA development and requires some manual modification of folders in the script to match local structure to work].
 
 
 ### Example workflows

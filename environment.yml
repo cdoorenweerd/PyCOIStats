@@ -10,9 +10,9 @@ dependencies:
   - argparse
   - biopython
   - collections
-  - subprocess
   - itertools
   - pathlib
   - matplotlib
   - seaborn
   - csvkit
+  - jupyter

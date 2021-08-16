@@ -78,9 +78,7 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 
-- `3rdcodonremover.py` filters the third codon positions from an alignment.
-
-- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained.
+- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
 
 - `pdistancer.py` calculates:
     - intraspecific distances (all_intra)

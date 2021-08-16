@@ -80,9 +80,20 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `3rdcodonremover.py` filters the third codon positions from an alignment.
 
-- `q_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained.
+- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained.
 
-- `pdistancer.py` calculates all intraspecific distances (all_intra), all interspecific distances (all_inter), the maximum intraspecific distances (Dmax) and minimum distances to the nearest neighbor (Dmin_NN) and outputs to a csv. Per v1.2 and later, a second csv table is produced with statistics per species [intra_Dmax, n_intra comparisons, avg_inter distance, inter_Dmin_nn, n inter comparison, nearest neighbor].
+- `pdistancer.py` calculates:
+    - intraspecific distances (all_intra)
+    - interspecific distances (all_inter)
+    - maximum intraspecific distances (Dmax)
+    - minimum distances to the nearest neighbor (Dmin_NN)
+    and outputs to a csv for plotting (see Notebooks). Per v1.2 and later, a second csv is produced with statistics per species:
+    - intra_Dmax
+    - n_intra comparisons
+    - avg_inter distance
+    - inter_Dmin_nn
+    - n_inter comparisons
+    - nearest neighbor
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 

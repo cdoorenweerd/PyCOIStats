@@ -15,14 +15,15 @@ parser.add_argument("-f", "--inputfileformat", metavar="", default='fasta',
                     help="'fasta' is recommended, other formats not tested")
 parser.add_argument("-l", "--minlength", type=int, metavar="", default=0, 
                     help="Minimum length (bp) of sequences to be retained. Does not count N, ? or - towards length. Default '0'.")
+parser.add_argument("-w", "--wobblestart", type=int, metavar="", default=0,
+                    help="if not 0, removes the 3rd codon (wobble) positions from the alignment, using the number indicated here as the first codon position (1-3)")
 args = parser.parse_args()
-
 
 inputfile = args.inputfile
 inputfileformat = args.inputfileformat
 min_len = args.minlength
 outputfile = str("q_" + str(inputfile))
-
+wobblestart = args.wobblestart
 
 def seq_len_filter(inputfile, inputfileformat, min_len):
     min_len_seqs = []
@@ -65,14 +66,25 @@ def isdistinct(min_len_seqs, inputfile, inputfileformat):
             distinct_seqs.append(record)
     return distinct_seqs
 
+def wobbleremover(wobblestart):
+    startpos = (wobblestart-1) # python starts counting at 0
+    parsed_file = "thirdcodonremoved_" + outputfile
+    with open(outputfile) as original, open(parsed_file, 'w') as newfile:
+        records = AlignIO.read(outputfile, fasta)
+        for record in records:
+            # retain first two characters of every set of three starting at startpos
+            parsedrecord = record[startpos+1::3] 
+            SeqIO.write(parsedrecord, newfile, 'fasta')
+
 
 sequences = AlignIO.read(inputfile, inputfileformat)
 print("Found " + str(len(sequences)) + " sequences in inputfile.")
 
-
 min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)
 distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)
 
-
 SeqIO.write(distinct_min_len_seqs, outputfile, "fasta")
-print("Qualifying sequences written to " + str(outputfile))
+print("Qualifying sequences alignment written to " + str(outputfile))
+
+if wobblestart > 0: wobbleremover(wobblestart)
+print("Qualifying sequences alignment without 3rd codon positions written to thirdcodonremoved_" + str(outputfile))

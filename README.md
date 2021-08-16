@@ -13,7 +13,7 @@ Doorenweerd C, San Jose M, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekaya
 
 ### Dependencies
 
-All dependencies are available through Anaconda (https://anaconda.org/anaconda/repo). It is recommended to create a new conda environment with the required packages:
+All dependencies are available through [Anaconda](https://anaconda.org/anaconda/repo). It is recommended to create a new conda environment with the required packages:
 
 e.g. using
 

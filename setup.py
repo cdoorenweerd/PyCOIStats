@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.3",
     author="Camiel Doorenweerd",
     author_email="c.doorenweerd@gmail.com",
-    description="A python package to calculate statistics on COI DNA sequence data",
+    description="A python package to calculate statistics on haploid DNA sequence data",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/cdoorenweerd/PyCOIStats",

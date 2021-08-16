@@ -50,13 +50,11 @@ The modules with pairwise comparisons will have exponential increases in computa
 
 ### Alignment input format
 
-SEQUENCES MUST BE PROPERLY ALIGNED. Alignments are imported with the biopython package, covering commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see https://biopython.org/docs/dev/api/Bio.AlignIO.html.
+Multisequence alignments are imported with the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see https://biopython.org/docs/dev/api/Bio.AlignIO.html.
 
-The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity codes can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
+The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity in the DNA character assignment can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
 
 ### Species name recognition
-
-SAMPLE NAMING CONVENTION
 
 The scripts will use anything after a period "." in the sample identifier as the species name. Sample identifiers must be unique for each sequence. So for example this would work:
 
@@ -88,7 +86,7 @@ For each script, run `python script.py -h` for usage instructions.
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 
-- `makespeciesfastas.py` will generate a separate fasta for each species in the folder /species_fastas
+- `splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
 
 
 ### Example workflows

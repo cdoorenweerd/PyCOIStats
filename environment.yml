@@ -16,3 +16,4 @@ dependencies:
   - seaborn
   - csvkit
   - jupyter
+  - setuptools

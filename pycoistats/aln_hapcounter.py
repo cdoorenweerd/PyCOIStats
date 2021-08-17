@@ -32,13 +32,19 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
         for record in sequences:
             if (record.id.split(".")[1]) == speciesname:        
                 recordlist.append(record)
-        uniquelist=[]
+        uniquelist=[] # change to dict to allow for counts for chao1 estimates
         for record in recordlist:
-            uniquelist.append(record.id)
+            uniquelist.append(record.id) # add all records as keys and value as 1
         for a, b in itertools.combinations(recordlist, 2):
             if IUPACdistance(str(a.seq), str(b.seq)) == 0:
                 if b.id in uniquelist:
                     uniquelist.remove(b.id)
+                    # uniquedict(a.id) value += 1
+        # create haplotype count list as 'counts = [3, 1, 4]'
+        # calculate chao 1: 
+        # from skbio.diversity import alpha_diversity
+        # skbio.diversity.alpha.chao1(counts)
+        # skbio.diversity.alpha.chao1_ci(counts) gives 95% lower bound, upper bound
         speciesstats.append({'species': speciesname,
                              'n_seq': len(recordlist),
                              'n_haplotypes': len(uniquelist)})

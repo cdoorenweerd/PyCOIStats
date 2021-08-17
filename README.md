@@ -26,7 +26,7 @@ For further instructions on how to use conda environments see the [conda documen
 
 A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B.
 
-![IUPAC ambiguity codes](IUPAC_codes.png)
+![IUPAC ambiguity codes](./docs/IUPAC_codes.png)
 
 For example:
 
@@ -97,8 +97,7 @@ For each script, run `python script.py -h` for usage instructions.
     - n_inter comparisons
     - nearest neighbor
 
-- the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
-
+The Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 
 
 

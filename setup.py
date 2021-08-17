@@ -16,6 +16,6 @@ setuptools.setup(
     classifiers=(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
-        "License :: GPS-3.0 License",
+        "License :: GPL-3.0 License",
     ),
 )

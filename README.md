@@ -72,30 +72,30 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 For each script, run `python script.py -h` for usage instructions.
 
-- `aln_summary.py` gives a simple count of the variable and parsimony informative sites.
+- `aln_summary.py` outputs count and proportion of variable and parsimony informative sites to screen.
 
-- `aln_renamer.py` changes sequence names in a fasta alignment based on a two column csv file. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
+- `aln_renamer.py` changes sequence names in a fasta alignment based on a two column csv reference file with headers 'current_name' and 'new_name'. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
 
-- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
+- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Recommended to run before aln_pdistancer. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
 
 - `aln_splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
 
 - `aln_hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
 
-- `aln_pdistancer.py` creates to output csv tables.
-    The first table has statistics for the whole alignment:
+- `aln_pdistancer.py` calculates pairwise distance statistics and outputs two csv tables:
+    The first table has statistics for the whole alignment.
     - intraspecific distances (all_intra)
     - interspecific distances (all_inter)
     - maximum intraspecific distances (Dmax)
     - minimum distances to the nearest neighbor (Dmin_NN)
     
-    Per v1.2 and later, a second csv is produced with statistics per species:
+    Per v1.2 and later, a second csv is produced with statistics per species.
     - intra_Dmax
     - n_intra comparisons
     - avg_inter distance
     - inter_Dmin_nn
     - n_inter comparisons
-    - nearest neighbor
+    - nearest neighbor (record)
 
 The Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 

@@ -18,37 +18,56 @@ inputfileformat = args.inputfileformat
 def aln_summarizer(inputfile, inputfileformat):
     sequences = AlignIO.read(inputfile, inputfileformat)
     totallength = sequences.get_alignment_length()
-    print("records: " + str(len(sequences))) # this is the number of records not sequence length!
-    print("alignment length: " + str(sequences.get_alignment_length())) # this is alignment length
+    print(f"{'records: ' : <35}{len(sequences)}")
+    print(f"{'alignment length: ' : <35}{sequences.get_alignment_length()}")
 
+    missing = ["N","?","-"]
     strict = ["A","C","T","G"]
-    iupac = ["A","C","T","G","N","?","-","M","R","W","S","Y","K","V","H","D","B"]
+    iupac = ["A","C","T","G","M","R","W","S","Y","K","V","H","D","B"]
     strictvariablesites = 0
     iupacvariablesites = 0
     strictparsimonysites = 0
     iupacparsimonysites = 0
+    missingdatasites = 0
 
     for pos in range(totallength):
         poslist = []
         for record in sequences:
             poslist.append(record.seq[pos]) # add all characters of position in all records to position list
         posdict = Counter(poslist) # dictionary with unique items of list as keys, values as number of times represented
+        # ACTG count
         strictchars = [x for x in posdict.keys() if x in strict] # compare keylist against strict; all values must be present
         if len(posdict.keys()) > 1 and len(strictchars) > 1: # more than 1 key means its a variable site
             strictvariablesites += 1
             # need to count if there are two or more values > 1 to be parsimony informative
             if sum(value > 1 for value in posdict.values()) > 1:
                 strictparsimonysites += 1
+        # IUPAC count
         iupacchars = [x for x in posdict.keys() if x in iupac]
         if len(posdict.keys()) > 1 and len(iupacchars) > 1:
             iupacvariablesites += 1
             if sum(value > 1 for value in posdict.values()) > 1:
                 iupacparsimonysites += 1
+        # missing count
+        missingdata = [x for x in posdict.keys() if x in missing]
+        if len(missingdata) > 0:
+            missingdatasites += 1
 
-    print("ACTG variable sites: " + str(strictvariablesites))
-    print("ACTG parsimony informative sites: " + str(strictparsimonysites))
-    print("IUPAC variable sites: " + str(iupacvariablesites))
-    print("IUPAC parsimony informative sites: " + str(iupacparsimonysites))
+    print(f"{'Sites with only missing data: ' : <35}{missingdatasites}")
+    print(f"{'ACTG variable sites: ' : <35}{strictvariablesites}")
+    print(f"{'ACTG parsimony informative sites: ' : <35}{strictparsimonysites}")
+    print(f"{'IUPAC variable sites: ' : <35}{iupacvariablesites}")
+    print(f"{'IUPAC parsimony informative sites: ' : <35}{iupacparsimonysites}")
 
-aln_summarizer(inputfile,inputfileformat)
-        
+def missingoverall(inputfile, inputfileformat):
+    sequences = AlignIO.read(inputfile, inputfileformat)
+    totalbp = sequences.get_alignment_length() * len(sequences)
+    missingcount = 0
+    for record in sequences:
+        missing = record.seq.count("N") + record.seq.count("?") + record.seq.count("-")
+        missingcount += missing
+    missingoverall = missingcount / totalbp
+    print(f"{'Proportion missing overall: ' : <35}{round(missingoverall, 4)}")
+
+aln_summarizer(inputfile, inputfileformat)
+missingoverall(inputfile, inputfileformat)

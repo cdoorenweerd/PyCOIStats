@@ -50,7 +50,7 @@ The modules with pairwise comparisons will have exponential increases in computa
 
 ### Alignment input format
 
-Multisequence alignments are imported with the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see https://biopython.org/docs/dev/api/Bio.AlignIO.html.
+Multisequence alignments are imported with the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see [biopython documentation](https://biopython.org/docs/dev/api/Bio.AlignIO.html).
 
 The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity in the DNA character assignment can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
 
@@ -76,16 +76,20 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `aln_renamer.py` changes sequence names in a fasta alignment based on a two column csv file. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
 
-- `hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
-
 - `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
 
-- `pdistancer.py` calculates:
+- `aln_splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
+
+- `aln_hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
+
+- `aln_pdistancer.py` creates to output csv tables.
+    The first table has statistics for the whole alignment:
     - intraspecific distances (all_intra)
     - interspecific distances (all_inter)
     - maximum intraspecific distances (Dmax)
     - minimum distances to the nearest neighbor (Dmin_NN)
-    and outputs to a csv for plotting (see Notebooks). Per v1.2 and later, a second csv is produced with statistics per species:
+    
+    Per v1.2 and later, a second csv is produced with statistics per species:
     - intra_Dmax
     - n_intra comparisons
     - avg_inter distance
@@ -95,14 +99,14 @@ For each script, run `python script.py -h` for usage instructions.
 
 - the Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 
-- `splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
+
 
 
 ### Example workflows
 
-![Workflow example](workflow_example.png)
+![Workflow example](./docs/workflow_example.png)
 
 
-Example output, as published in https://doi.org/https://doi.org/10.1101/2020.11.23.394510
+Example output, as [published](https://doi.org/https://doi.org/10.1101/2020.11.23.394510)
 
-![Output example](output_example.png)
+![Output example](./docs/output_example.png)

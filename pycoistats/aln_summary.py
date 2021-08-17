@@ -18,8 +18,8 @@ inputfileformat = args.inputfileformat
 def aln_summarizer(inputfile, inputfileformat):
     sequences = AlignIO.read(inputfile, inputfileformat)
     totallength = sequences.get_alignment_length()
-    print(f"{'records: ' : <35}{len(sequences)}")
-    print(f"{'alignment length: ' : <35}{sequences.get_alignment_length()}")
+    print(f"{'records: ' : <40}{len(sequences) :^5}")
+    print(f"{'alignment length: ' : <40}{sequences.get_alignment_length() : ^5}")
 
     missing = ["N","?","-"]
     strict = ["A","C","T","G"]
@@ -49,15 +49,14 @@ def aln_summarizer(inputfile, inputfileformat):
             if sum(value > 1 for value in posdict.values()) > 1:
                 iupacparsimonysites += 1
         # missing count
-        missingdata = [x for x in posdict.keys() if x in missing]
-        if len(missingdata) > 0:
+        if posdict['N'] + posdict['?'] + posdict['-'] == len(sequences):
             missingdatasites += 1
 
-    print(f"{'Sites with only missing data: ' : <35}{missingdatasites}")
-    print(f"{'ACTG variable sites: ' : <35}{strictvariablesites}")
-    print(f"{'ACTG parsimony informative sites: ' : <35}{strictparsimonysites}")
-    print(f"{'IUPAC variable sites: ' : <35}{iupacvariablesites}")
-    print(f"{'IUPAC parsimony informative sites: ' : <35}{iupacparsimonysites}")
+    print(f"{'Sites with only missing data: ' : <40}{missingdatasites : ^5}{round(missingdatasites / totallength, 4) : ^15}")
+    print(f"{'ACTG variable sites: ' : <40}{strictvariablesites : ^5}{round(strictvariablesites / totallength, 4) : ^15}")
+    print(f"{'ACTG parsimony informative sites: ' : <40}{strictparsimonysites : ^5}{round(strictparsimonysites / totallength, 4) : ^15}")
+    print(f"{'IUPAC variable sites: ' : <40}{iupacvariablesites : ^5}{round(iupacvariablesites / totallength, 4) : ^15}")
+    print(f"{'IUPAC parsimony informative sites: ' : <40}{iupacparsimonysites : ^5}{round(iupacparsimonysites / totallength, 4) : ^15}")
 
 def missingoverall(inputfile, inputfileformat):
     sequences = AlignIO.read(inputfile, inputfileformat)
@@ -67,7 +66,8 @@ def missingoverall(inputfile, inputfileformat):
         missing = record.seq.count("N") + record.seq.count("?") + record.seq.count("-")
         missingcount += missing
     missingoverall = missingcount / totalbp
-    print(f"{'Proportion missing overall: ' : <35}{round(missingoverall, 4)}")
+    print(f"{'Missing overall: ' : <40}{missingcount : ^5}{round(missingoverall, 4) : ^15}")
 
+print(f"{'' : <40}{'count' : ^5}{'proportion' : ^15}")
 aln_summarizer(inputfile, inputfileformat)
 missingoverall(inputfile, inputfileformat)

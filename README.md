@@ -80,7 +80,7 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `aln_splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
 
-- `aln_hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file.
+- `aln_hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file. Beta testing [scikit-bio Chao1](http://scikit-bio.org/docs/0.5.6/generated/skbio.diversity.alpha.chao1.html?highlight=chao1) estimator calculations to be added in v1.4
 
 - `aln_pdistancer.py` calculates pairwise distance statistics and outputs two csv tables:
     The first table has statistics for the whole alignment.
@@ -89,7 +89,7 @@ For each script, run `python script.py -h` for usage instructions.
     - maximum intraspecific distances (Dmax)
     - minimum distances to the nearest neighbor (Dmin_NN)
     
-    Per v1.2 and later, a second csv is produced with statistics per species.
+    A second csv is produced with statistics per species (v1.2>).
     - intra_Dmax
     - n_intra comparisons
     - avg_inter distance

@@ -23,5 +23,5 @@ def createlistofspecies(inputfile, fileformat):
         speciesname = (record.id.split(".")[1])
         if speciesname not in listofspecies:
             listofspecies.append(speciesname)
-    print(str(len(listofspecies)) + " species in charactermatrix.")
+    print(str(len(listofspecies)) + " species in charactermatrix")
     return listofspecies

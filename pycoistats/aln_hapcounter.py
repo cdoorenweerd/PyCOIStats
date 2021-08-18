@@ -26,10 +26,12 @@ outputfile = str(str(inputfileclean) + "_haplotypecounts.csv")
 
 
 def hapcounter(listofspecies, inputfile, inputfileformat):
+    sequences = AlignIO.read(inputfile, inputfileformat)
     speciesstats = []
+    progresscounter = 1
     for speciesname in listofspecies:
+        print('Calculating stats for species ' + str(progresscounter) + ': ' + speciesname + '               ', end='\r')
         recordlist = []
-        sequences = AlignIO.read(inputfile, inputfileformat)
         for record in sequences:
             if (record.id.split(".")[1]) == speciesname:        
                 recordlist.append(record)
@@ -38,10 +40,10 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
             uniquedict.update({record.id: 1})
         for a, b in itertools.combinations(recordlist, 2):
             if IUPACdistance(str(a.seq), str(b.seq)) == 0:
-                if b.id in uniquedict:
-                    newvalue = uniquedict[a.id] + uniquedict[b.id]
-                    uniquedict.update({a.id: newvalue})
-                    del uniquedict[b.id]
+                newvalue = uniquedict[a.id] + uniquedict[b.id]
+                uniquedict.update({a.id: newvalue})
+                uniquedict.update({b.id: 0})
+        uniquedict = {key:value for key, value in uniquedict.items() if value != 0}
         hapcounts = list(uniquedict.values())
         chao1 = alpha_diversity('chao1', hapcounts)
         chao1_ci = alpha_diversity('chao1_ci', hapcounts)
@@ -51,6 +53,8 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
                              'chao1': chao1[0],
                              'chao1_95ci': chao1_ci[0]
                              })
+        progresscounter += 1
+    print('')
     return speciesstats
 
 listofspecies = createlistofspecies(inputfile, inputfileformat)

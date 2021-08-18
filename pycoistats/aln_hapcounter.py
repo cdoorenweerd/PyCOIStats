@@ -33,27 +33,23 @@ def hapcounter(listofspecies, inputfile, inputfileformat):
         for record in sequences:
             if (record.id.split(".")[1]) == speciesname:        
                 recordlist.append(record)
-        uniquelist=[] # change to uniquedict={} to allow for counts for chao1 estimates
+        uniquedict={}
         for record in recordlist:
-            uniquelist.append(record.id) # uniquedict.update({record.id: 1})
+            uniquedict.update({record.id: 1})
         for a, b in itertools.combinations(recordlist, 2):
             if IUPACdistance(str(a.seq), str(b.seq)) == 0:
-                if b.id in uniquelist:
-                    # newvalue = uniquedict[a.id] + uniquedict[b.id]
-                    # uniquedict.update({a.id: newvalue}) # adds value of b to a
-                    uniquelist.remove(b.id)
-        # create haplotype count list from uniquedict values as 'hapcounts = [3, 1, 4]':
-        # hapcounts = list(uniquedict.values())
-        # calculate chao 1: 
-        # metric1 = "chao1"
-        # chao1 = alpha_diversity(metric1, hapcounts)
-        # metric2 = "chao1_ci"
-        # chao1_ci = alpha_diversity(metric2, hapcounts) # gives 95% lower bound, upper bound
+                if b.id in uniquedict:
+                    newvalue = uniquedict[a.id] + uniquedict[b.id]
+                    uniquedict.update({a.id: newvalue})
+                    del uniquedict[b.id]
+        hapcounts = list(uniquedict.values())
+        chao1 = alpha_diversity('chao1', hapcounts)
+        chao1_ci = alpha_diversity('chao1_ci', hapcounts)
         speciesstats.append({'species': speciesname,
                              'n_seq': len(recordlist),
-                             'n_haplotypes': len(uniquelist),
+                             'n_haplotypes': len(uniquedict),
                              'chao1': chao1[0],
-                             'chao1_ci': chao1_ci[0]
+                             'chao1_95ci': chao1_ci[0]
                              })
     return speciesstats
 

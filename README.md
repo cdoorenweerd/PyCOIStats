@@ -2,7 +2,7 @@
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
 
 # PyCOIStats package
-A collection of python modules to analyze COI data, filter non-distinct haplotypes, calculate pairwise distances, and plot graphs.
+A collection of python modules to analyze haploid DNA sequence data (e.g., COI gene), filter non-distinct haplotypes, calculate pairwise distances, and plot graphs.
 
 
 ### How to cite
@@ -24,11 +24,11 @@ For further instructions on how to use conda environments see the [conda documen
 
 ### Defining distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: IUPAC ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B.
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: [IUPAC](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry) ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The full IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B;
 
 ![IUPAC ambiguity codes](./docs/IUPAC_codes.png)
 
-For example:
+This definition implies that for example:
 
 AACTGTCA and AACTNY-A
 
@@ -50,7 +50,7 @@ The modules with pairwise comparisons will have exponential increases in computa
 
 ### Alignment input format
 
-Multisequence alignments are imported with the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see [biopython documentation](https://biopython.org/docs/dev/api/Bio.AlignIO.html).
+Multisequence alignments are imported using the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see [biopython documentation](https://biopython.org/docs/dev/api/Bio.AlignIO.html).
 
 The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity in the DNA character assignment can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
 
@@ -80,16 +80,20 @@ For each script, run `python script.py -h` for usage instructions.
 
 - `aln_splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
 
-- `aln_hapcounter.py` counts the total number of sequences and distinct haplotypes per species and outputs to csv file. Beta testing [scikit-bio Chao1](http://scikit-bio.org/docs/0.5.6/generated/skbio.diversity.alpha.chao1.html?highlight=chao1) estimator calculations to be added in v1.4
+- `aln_hapcounter.py` outputs a csv file with statistics per species:
+    - Sequence count
+    - Distinct haplotype count
+    - Chao1 estimate of total haplotype diversity (see [scikit-bio Chao1](http://scikit-bio.org/docs/0.5.6/generated/skbio.diversity.alpha.chao1.html?highlight=chao1)
+    - Chao1 estimate 95% lower and upper confidence intervals (as a string)
 
-- `aln_pdistancer.py` calculates pairwise distance statistics and outputs two csv tables:
-    The first table has statistics for the whole alignment.
+- `aln_pdistancer.py` calculates pairwise distance statistics and outputs two csv tables.
+    The first table has statistics for the whole alignment:
     - intraspecific distances (all_intra)
     - interspecific distances (all_inter)
     - maximum intraspecific distances (Dmax)
     - minimum distances to the nearest neighbor (Dmin_NN)
     
-    A second csv is produced with statistics per species (v1.2>).
+    A second csv is produced with statistics per species:
     - intra_Dmax
     - n_intra comparisons
     - avg_inter distance

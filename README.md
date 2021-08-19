@@ -21,7 +21,7 @@ Alternatively, you can clone the github repo and use the scripts separately. For
 
 ### Defining distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. A distinct haplotype is a confidently different sequence: [IUPAC](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry) ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The full IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B;
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. For haploid sequence data, such as mitochondrial DNA, ambiguous bases should be interpreted as missing data. A distinct haplotype is therefore here defined as <mark>a confidently different sequence</mark>: [IUPAC](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry) ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The full IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B;
 
 ![IUPAC ambiguity codes](./docs/IUPAC_codes.png)
 
@@ -37,19 +37,17 @@ GCAAYTNN and GTAACTGC
 
 Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats counts 1 difference in 5 bases (ignoring the ambiguities and not counting them towards compared strand length): 20.0% difference.
 
-Ideally, when COI data is of extremely high quality and all sequences are of equal length and have no ambiguous bases, this would not make a difference. However, practice is that missing or ambiguous data is common and should be interpreted correctly.
-
 
 ### Computational demand
 
-The modules with pairwise comparisons will have exponential increases in computational time increases with more sequences. However, it should be able to handle 5,000 sequences [12.5 million pairwise comparisons] in a couple of hours on most desktop machines, for larger datasets a computing cluster is advisable. I have not tested the limits of dataset sizes that can be handled, but 10,000 sequences [50 million pairwise comparisons] is probably pushing it.
+Two scripts perform pairwise comparisons: the aln_hapcounter.py script compares sequences within species (less computationally intensive), and  aln_pdistancer.py compares sequences across the full alignment (more computationally intenstive). The pairwise comparisons will have exponential increases in computational time with more sequences. For a rough reference indication; running 8,000 sequences of 1493 base pairs took about 3 hours on a basic desktop machine. The scripts use basic python (specifically, the [itertools.combations](https://docs.python.org/3/library/itertools.html) function) which does not allow for use of multiple cores. The full dataset csv file created by aln_pdistancer is often too large to open with a spreadsheet editor (e.g., microsoft excel) but can be read directly by the Jupyter notebook to plot graphs (see examples).
 
 
 ### Alignment input format
 
-Multisequence alignments are imported using the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS or PHYLIP. For a full list of supported formats see [biopython documentation](https://biopython.org/docs/dev/api/Bio.AlignIO.html).
+Multisequence alignments are imported using the [biopython](https://biopython.org/) package, supporting commonly used formats such as FASTA, NEXUS and PHYLIP. For a full list of supported formats see the [biopython documentation](https://biopython.org/docs/dev/api/Bio.AlignIO.html).
 
-The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity in the DNA character assignment can mean a) uncertainty in the data or b) different alleles -- it makes more sense to count such ambiguities as differences.
+The modules were created with haploid sequence data in mind but will run on any DNA sequence alignment. For diploid or polyploid sources however, ambiguity in the DNA character assignment can mean either uncertainty in the data or heterozygosity -- it often makes more sense to count such ambiguities as differences.
 
 ### Species name recognition
 
@@ -80,26 +78,26 @@ For each script, run `-h` for usage instructions.
 - `aln_hapcounter.py` outputs a csv file with statistics per species:
     - Sequence count
     - Distinct haplotype count
-    - Chao1 estimate of total haplotype diversity (see [scikit-bio Chao1](http://scikit-bio.org/docs/0.5.6/generated/skbio.diversity.alpha.chao1.html?highlight=chao1)
-    - Chao1 estimate 95% lower and upper confidence intervals (as a string)
+    - Chao1 estimate of total haplotype diversity (uses [scikit-bio Chao1](http://scikit-bio.org/docs/0.5.6/generated/skbio.diversity.alpha.chao1.html?highlight=chao1))
+    - Chao1 estimate 95% lower and upper confidence intervals
 
 - `aln_pdistancer.py` calculates pairwise distance statistics and outputs two csv tables.
-    The first table has statistics for the whole alignment:
+    The first table has statistics for the whole alignment (this file can get large):
     - intraspecific distances (all_intra)
     - interspecific distances (all_inter)
     - maximum intraspecific distances (Dmax)
     - minimum distances to the nearest neighbor (Dmin_NN)
     
     A second csv is produced with statistics per species:
-    - intra_Dmax
-    - n_intra comparisons
-    - avg_inter distance
-    - inter_Dmin_nn
-    - n_inter comparisons
-    - nearest neighbor (record)
+    - Average intraspecific distance between sequences (avg_intra)
+    - maximum intraspecific distance Dmax (intra_d_max)
+    - number of intraspecific sequence comparisons (n_intra_comparisons)
+    - average distance between sequences within species (avg_inter)
+    - minimum distance to the nearest neighbor Dmin_NN (inter_Dmin_nn)
+    - number of species compared to determine nearestneighbor (n_inter_comparisons)
+    - sample name of the nearest neighbor (nearest_neighbor)
 
 The Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
-
 
 
 ### Example workflows

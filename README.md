@@ -13,7 +13,9 @@ Doorenweerd C, San Jose M, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekaya
 
 ### Installation
 
-The easiest setup is within an [Anaconda](https://anaconda.org/anaconda/repo) environment. Clone the git repo and use `python setup.py install` to install all the dependencies and get the scripts as executables in the environment's /bin folder.
+PyCOIStats is available as an [Anaconda](https://anaconda.org/anaconda/repo) package in the channel `cdoorenweerd`. If you have Anaconda on your system, install pycoistats along with a new environment using `conda create -n pycoistatsenv -c cdoorenweerd pycoistats` to install all the dependencies and get the scripts as executables in the environment's /bin folder.
+
+Alternatively, you can clone the github repo and use the scripts separately. For the list of module dependencies see the 'meta.yaml' file.
 
 
 ### Defining distinct haplotypes

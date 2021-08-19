@@ -14,7 +14,6 @@ requirements:
     - python
   run:
     - python
-    - python >=3.6
     - pandas
     - biopython
     - pathlib

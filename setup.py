@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pycoistats",
-    version="1.4.2",
+    version="1.4.3",
     author="Camiel Doorenweerd",
     author_email="c.doorenweerd@gmail.com",
     description="A python package to calculate statistics on haploid DNA sequence data",

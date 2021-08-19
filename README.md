@@ -13,7 +13,7 @@ Doorenweerd C, San Jose M, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekaya
 
 ### Installation
 
-PyCOIStats is available as an [Anaconda](https://anaconda.org/anaconda/repo) package in the channel `cdoorenweerd`. If you have Anaconda on your system, install pycoistats along with a new environment using `conda create -n pycoistatsenv -c cdoorenweerd pycoistats` to install all the dependencies and get the scripts as executables in the environment's /bin folder.
+The latest released version of PyCOIStats is available as an [Anaconda](https://anaconda.org/anaconda/repo) package in the channel `cdoorenweerd`. If you have Anaconda on your system, install pycoistats along with a new environment using `conda create -n pycoistatsenv -c cdoorenweerd pycoistats` to install all the dependencies and get the scripts as executables in the environment's /bin folder.
 
 Alternatively, you can clone the github repo and use the scripts separately. For the list of module dependencies see the 'meta.yaml' file.
 

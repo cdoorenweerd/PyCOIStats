@@ -11,15 +11,9 @@ PyCOIStats vX (Doorenweerd et al. 2020)
 
 Doorenweerd C, San Jose M, Leblanc L, Barr N, Geib S, Chung AYC, Dupuis J, Ekayanti A, Fiegalan ER, Hemachandra KS, Hossain MA, Huang C-L, Hsu Y-F, Morris KY, Mustapeng AM, Niogret J, Pham TH, Sirisena UGAI, Rubinoff D (2020) DNA barcodes and reliable molecular identifications in a diverse group of invasive pests: lessons from Bactrocera fruit flies on variation across the COI gene, introgression, and standardization. bioRxiv. https://doi.org/10.1101/2020.11.23.394510 
 
-### Dependencies
+### Installation
 
-All dependencies are available through [Anaconda](https://anaconda.org/anaconda/repo). It is recommended to create a new conda environment with the required packages:
-
-e.g. using
-
-```conda create -n pycoistats python=3.6 -c bioconda -c conda-forge pandas itertools biopython numpy argpase os matplotlib seaborn csvkit r-base```
-
-For further instructions on how to use conda environments see the [conda documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+The easiest setup is within an [Anaconda](https://anaconda.org/anaconda/repo) environment. Clone the git repo and use `python setup.py install` to install all the dependencies and get the scripts as executables in the environment's /bin folder.
 
 
 ### Defining distinct haplotypes
@@ -70,7 +64,7 @@ NACTCTCTACTTTATTTTCGGAATTTGATCTGGAATATTAGGAACATCTTTAAGTATATTAATTCGAGCTGAATTAGGTA
 
 ### Script functions
 
-For each script, run `python script.py -h` for usage instructions.
+For each script, run `-h` for usage instructions.
 
 - `aln_summary.py` outputs count and proportion of variable and parsimony informative sites to screen.
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from Bio import AlignIO
 from collections import Counter
 import argparse

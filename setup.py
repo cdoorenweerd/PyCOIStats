@@ -12,7 +12,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/cdoorenweerd/PyCOIStats",
-    packages=setuptools.find_packages(),
+    scripts=['aln_filter','aln_hapcounter','aln_pdistancer','aln_renamer','aln_splitspecies','aln_summary','basefunctions'],
+    packages=setuptools.find_packages(include=['pycoistats', 'pycoistats.*']),
     classifiers=(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

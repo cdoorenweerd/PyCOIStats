@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 # Camiel Doorenweerd 2020
 
 import argparse

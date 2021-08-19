@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 # Camiel Doorenweerd 2020
 # For a full list of alignment formats that it can handle see https://biopython.org/wiki/SeqIO
 

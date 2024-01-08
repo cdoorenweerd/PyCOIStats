@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# Camiel Doorenweerd 2020
-
 
 from Bio import SeqIO
 from Bio import AlignIO
@@ -26,6 +24,7 @@ outputfile = str("q_" + str(inputfile))
 wobblestart = args.wobblestart
 
 def seq_len_filter(inputfile, inputfileformat, min_len):
+    print("Removing sequences that do not meet the minimum length requirement")
     min_len_seqs = []
     sequences = AlignIO.read(inputfile, inputfileformat)
     for record in sequences:
@@ -33,32 +32,64 @@ def seq_len_filter(inputfile, inputfileformat, min_len):
         if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
             min_len_seqs.append(record)
     print("Sequences with min " + str(min_len) + " bp: " + str(len(min_len_seqs)))
-    return min_len_seqs
+    return min_len_seqs # this is a AlignIO object, like a dict with id, seq
 
 
 def isdistinct(min_len_seqs, inputfile, inputfileformat):
+    print("Removing non-distinct haplotypes across all samples by checking pairwise distance")
     recordlist = []
-    distinctdict = {}   
+    specieslist = []
+    distinctdict = {}
     for record in min_len_seqs:
-        distinctdict[record.id] = record.seq
+        distinctdict[record.id] = record.seq # fills distinctdict with all min_len_seqs dict records
         recordlist.append(record)
+    print("Starting with " + str(len(distinctdict)) + " sequences")
+    totalcombinations = len(list(itertools.permutations(recordlist, 2))) #needs to be divided by 2? cause we remove things as we go?
+    print("Calculating " + str(totalcombinations) + " pairwise distances")   
+    progresscounter = 1
     for a, b in itertools.combinations(recordlist, 2):
         if a.id in distinctdict.keys() and b.id in distinctdict.keys():
             seq_a = str(a.seq)
             seq_b = str(b.seq)
             if IUPACdistance(seq_a, seq_b) == 0:
-                sp_seq_a = (a.id.split(".")[1])
-                sp_seq_b = (b.id.split(".")[1])
+                sp_seq_a = a.id.split(".")[1]
+                sp_seq_b = b.id.split(".")[1]
                 if sp_seq_a != sp_seq_b:
                     print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained.")
                 else:
-                    seq_a_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
-                    seq_b_hq = (len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB'))))
+                    seq_a_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
+                    seq_b_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
                     if seq_a_hq > seq_b_hq:
                         del distinctdict[b.id]
                     else:
                         del distinctdict[a.id]
-    print("Distinct sequences (p-dist != 0) with minimum length: " + str(len(distinctdict))) 
+        progresscounter += 1
+        percentcompletion = (progresscounter / totalcombinations) * 100
+        print("Progress: " + str(round(percentcompletion, 3)) + " %                   ", end='\r')
+    print(str(len(distinctdict)) + " sequences remain")
+    print("Removing non-distinct haplotypes within species that were retained because they are shared across species")
+    for record in min_len_seqs:
+        species = (record.id.split(".")[1])
+        specieslist.append(species)
+    specieslist = list(set(specieslist)) # set() takes unique values only
+    print("Found " + str(len(specieslist)) + " species")
+    for species in specieslist:
+        samples = []
+        for record in min_len_seqs:
+            if record.id.endswith(species):
+                samples.append(record)
+        for a, b in itertools.combinations(samples, 2):
+            if a.id in distinctdict.keys() and b.id in distinctdict.keys():
+                seq_a = str(a.seq)
+                seq_b = str(b.seq)
+                if IUPACdistance(seq_a, seq_b) == 0:
+                    seq_a_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
+                    seq_b_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
+                    if seq_a_hq > seq_b_hq:
+                        del distinctdict[b.id]
+                    else:
+                        del distinctdict[a.id]
+    print("Final count of distinct sequences: " + str(len(distinctdict))) 
     distinct_seqs = []
     sequences = SeqIO.parse(inputfile, inputfileformat)
     for record in sequences:
@@ -86,5 +117,6 @@ distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)
 SeqIO.write(distinct_min_len_seqs, outputfile, "fasta")
 print("Qualifying sequences alignment written to " + str(outputfile))
 
-if wobblestart > 0: wobbleremover(wobblestart)
-print("Qualifying sequences alignment without 3rd codon positions written to thirdcodonremoved_" + str(outputfile))
+if wobblestart > 0:
+    wobbleremover(wobblestart)
+    print("Qualifying sequences alignment without 3rd codon positions written to thirdcodonremoved_" + str(outputfile))

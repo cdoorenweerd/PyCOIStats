@@ -21,7 +21,7 @@ Alternatively, you can clone the github repo and use the scripts separately. For
 
 ### Defining distinct haplotypes
 
-A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. For haploid sequence data, such as mitochondrial DNA, ambiguous bases should be interpreted as missing data. A distinct haplotype is therefore here defined as <mark>a confidently different sequence</mark>: [IUPAC](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry) ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The full IUPAC alphabet includes: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B;
+A principle difference between PyCOIStats and most other software is in how it defines a distinct haplotype. For haploid sequence data, such as mitochondrial DNA, ambiguous bases should be interpreted as missing data. A distinct haplotype is therefore here defined as <mark>a confidently different sequence</mark>: [IUPAC](https://en.wikipedia.org/wiki/International_Union_of_Pure_and_Applied_Chemistry) ambiguity codes or missing data ("?") and gaps ("-") are ignored in comparisons. The full IUPAC alphabet includes 17 characters: A, C, T, G, N, ?, -, M, R, W, S, Y, K, V, H, D, B;
 
 ![IUPAC ambiguity codes](./docs/IUPAC_codes.png)
 
@@ -71,7 +71,7 @@ For each script, run `-h` for usage instructions.
 
 - `aln_renamer.py` changes sequence names in a fasta alignment based on a two column csv reference file with headers 'current_name' and 'new_name'. With the '-l' flag the script will simply generate a txt file with all current sequence names. This script is helpful to get the species naming convention right.
 
-- `aln_filter.py` filters sequences to meet the minimum length requirement and be distinct haplotypes, and writes the result to a new fasta. Recommended to run before aln_pdistancer. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
+- `aln_filter.py` filters sequences to meet the minimum length requirement and removes non-distinct haplotypes, outputs a new fasta. Recommended to run before aln_pdistancer. Non-distinct haplotypes across different species raise a warning and are retained. Can also remove the third codon positions from an alignment with the flag -w.
 
 - `aln_splitspecies.py` will generate a separate fasta for each species in a subfolder /species_fastas
 

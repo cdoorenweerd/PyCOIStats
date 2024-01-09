@@ -1,6 +1,6 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![DOI](https://zenodo.org/badge/264048060.svg)](https://zenodo.org/badge/latestdoi/264048060)
-(https://anaconda.org/cdoorenweerd/pycoistats/badges/installer/conda.svg)]
+[![Anaconda](https://anaconda.org/cdoorenweerd/pycoistats/badges/version.svg)](https://anaconda.org/cdoorenweerd/pycoistats)
 
 # PyCOIStats package
 A collection of python modules to analyze haploid DNA sequence data (e.g., COI gene), filter non-distinct haplotypes, calculate pairwise distances, and plot graphs.
@@ -40,7 +40,7 @@ Most other software counts 1 difference in 8 bases: 12.5% difference. PyCOIStats
 
 ### Computational demand
 
-Two scripts perform pairwise comparisons: the aln_hapcounter.py script compares sequences within species (less computationally intensive), and  aln_pdistancer.py compares sequences across the full alignment (more computationally intenstive). The pairwise comparisons will have exponential increases in computational time with more sequences. For a rough reference indication; running 8,000 sequences of 1493 base pairs took about 3 hours on a basic desktop machine. The scripts use basic python (specifically, the [itertools.combations](https://docs.python.org/3/library/itertools.html) function) which does not allow for use of multiple cores. The full dataset csv file created by aln_pdistancer is often too large to open with a spreadsheet editor (e.g., microsoft excel) but can be read directly by the Jupyter notebook to plot graphs (see examples).
+Two scripts perform pairwise comparisons: the aln_hapcounter.py script compares sequences within species (less computationally intensive), and  aln_pdistancer.py compares sequences across the full alignment (more computationally intenstive). The pairwise comparisons will have exponential increases in computational time with more sequences. The scripts use basic python (specifically, the [itertools.combations](https://docs.python.org/3/library/itertools.html) function) which does not allow for use of multiple cores. The full dataset csv file created by aln_pdistancer is often too large to open with a spreadsheet editor (e.g., microsoft excel) but can be read directly by the Jupyter notebook to plot graphs (see examples).
 
 
 ### Alignment input format

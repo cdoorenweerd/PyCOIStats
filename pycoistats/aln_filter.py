@@ -55,7 +55,7 @@ def isdistinct(min_len_seqs, inputfile, inputfileformat):
                 sp_seq_a = a.id.split(".")[1]
                 sp_seq_b = b.id.split(".")[1]
                 if sp_seq_a != sp_seq_b:
-                    print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained.")
+                    print("Warning: " + str(a.id) + " and " + str(b.id) + " share the same haplotype, both are retained")
                 else:
                     seq_a_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
                     seq_b_hq = len(seq_a.translate(str.maketrans('','','N?-MRWSYKVHDB')))
@@ -109,7 +109,7 @@ def wobbleremover(wobblestart):
 
 
 sequences = AlignIO.read(inputfile, inputfileformat)
-print("Found " + str(len(sequences)) + " sequences in inputfile.")
+print("Found " + str(len(sequences)) + " sequences in inputfile")
 
 min_len_seqs = seq_len_filter(inputfile, inputfileformat, min_len)
 distinct_min_len_seqs = isdistinct(min_len_seqs, inputfile, inputfileformat)

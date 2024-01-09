@@ -44,7 +44,7 @@ def isdistinct(min_len_seqs, inputfile, inputfileformat):
         distinctdict[record.id] = record.seq # fills distinctdict with all min_len_seqs dict records
         recordlist.append(record)
     print("Starting with " + str(len(distinctdict)) + " sequences")
-    totalcombinations = len(list(itertools.permutations(recordlist, 2))) #needs to be divided by 2? cause we remove things as we go?
+    totalcombinations = (len(list(itertools.permutations(recordlist, 2))))/2
     print("Calculating " + str(totalcombinations) + " pairwise distances")   
     progresscounter = 1
     for a, b in itertools.combinations(recordlist, 2):

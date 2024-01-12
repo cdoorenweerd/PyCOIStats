@@ -25,7 +25,7 @@ def checkifintree(inputtree, flattaxalist):
     Phylo.draw_ascii(tree)
     for taxon in flattaxalist:
         try:
-            taxonstring = taxon + ".*" #regex matches species name and anything that follows
+            taxonstring = "*." + taxon # regex matches anything that ends with species name
             tree.root_with_outgroup({"name": taxonstring}) # just to test if taxon is in the tree, will throw exception if not
         except Exception as e:
             print(taxon + " is not in this tree, skipping")
@@ -38,7 +38,7 @@ def checkmonophyly(inputtree, flattaxalist):
     tree.rooted = True
     speciesstatus = []
     for taxon in flattaxalist:
-        taxonstring = taxon + ".*" #regex matches species name and anything that follows
+        taxonstring = "*." + taxon # regex matches anything that ends with species name
         # if len(get_terminals(tree.find_clades({"name": taxonsstring}))) == 1:
         #    print(str(taxon) + " is represented by a singleton")
         if tree.is_monophyletic(tree.find_clades({"name": taxonstring})) is not False:

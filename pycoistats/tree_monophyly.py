@@ -39,6 +39,8 @@ def checkmonophyly(inputtree, flattaxalist):
     speciesstatus = []
     for taxon in flattaxalist:
         taxonstring = taxon + ".*" #regex matches species name and anything that follows
+        # if len(get_terminals(tree.find_clades({"name": taxonsstring}))) == 1:
+        #    print(str(taxon) + " is represented by a singleton")
         if tree.is_monophyletic(tree.find_clades({"name": taxonstring})) is not False:
             print(str(taxon) + " is monophyletic")
             speciesstatus.append({'taxon': taxon, 'monophyly': "monophyletic"})

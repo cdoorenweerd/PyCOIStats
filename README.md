@@ -97,7 +97,12 @@ For each script, run `-h` for usage instructions.
     - number of species compared to determine nearestneighbor (n_inter_comparisons)
     - sample name of the nearest neighbor (nearest_neighbor)
 
-- `tree_monophyly.py` checks for monophyly of given taxa in a tree using the [BioPython is.monophyletic() function](https://biopython.org/docs/1.75/api/Bio.Phylo.BaseTree.html#Bio.Phylo.BaseTree.TreeMixin.is_monophyletic). The script takes a newick formatted tree (-i) along with a CSV of taxa names (-t) to be tested for monophyly. Following the above naming convention, a single column CSV list with Caloptilia_betulicola and Caloptilia rufipennella would work. Script raises a warning when taxa from the CSV list are not in the tree. Note that this script is fairly basic and does not indicate if taxon is represented by a singleton, the number of representatives for each taxon, or which species are tangled in non-monophyletic clusters [to be added in a future version].
+- `tree_monophyly.py` checks for monophyly of given taxa in a tree using the [BioPython is.monophyletic() function](https://biopython.org/docs/1.75/api/Bio.Phylo.BaseTree.html#Bio.Phylo.BaseTree.TreeMixin.is_monophyletic). The script takes a newick formatted tree (-i) along with a CSV of taxa names (-t) to be tested for monophyly. Following the above naming convention, a single column CSV list with
+
+>Caloptilia_betulicola
+>Caloptilia_rufipennella
+
+ would work. Script raises a warning when taxa from the CSV list are not in the tree. Note that this script is fairly basic and does not indicate if taxon is represented by a singleton, the number of representatives for each taxon, or which species are tangled in non-monophyletic clusters [to be added in a future version].
 
 The Jupyter Notebook `graphs.ipynb` contains scripts to interactively generate ('barcode gap') violin plots from the csv output from ```pdistancer.py``` and output the graphs for publication.
 

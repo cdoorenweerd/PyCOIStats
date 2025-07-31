@@ -29,7 +29,7 @@ def seq_len_filter(inputfile, inputfileformat, min_len):
     sequences = AlignIO.read(inputfile, inputfileformat)
     for record in sequences:
         seq = str(record.seq)
-        if (len(seq.translate(str.maketrans('','','N?-')))) > min_len:
+        if (len(seq.translate(str.maketrans('','','nN?-')))) > min_len:
             min_len_seqs.append(record)
     print("Sequences with min " + str(min_len) + " bp: " + str(len(min_len_seqs)))
     return min_len_seqs # this is a AlignIO object, like a dict with id, seq
